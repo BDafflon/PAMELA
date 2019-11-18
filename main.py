@@ -105,7 +105,7 @@ while not done:
 
         if PRINTFUSTRUM:
             pygame.draw.circle(screen, color, [column ,  row ], agent.body.fustrum.radius * 5, 1)# Limit to 60 frames per second
-    clock.tick(60)
+    clock.tick(120)
 
 	# Go ahead and update the screen with what we 've drawn.
     pygame.display.flip()

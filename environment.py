@@ -47,7 +47,7 @@ class Environment(threading.Thread):
 
             while self.running == 1:
 
-                time.sleep(0.2)
+                time.sleep(0.002)
                 self.perceptionList = {}
                 self.influenceList = {}
 
@@ -108,7 +108,7 @@ class Environment(threading.Thread):
                 move = Vector2D(influence.x, influence.y)
                 rotation = 0
                 move = agentBody.computeMove(move)
-
+                move=move.scale(0.2)
                 agentBody.move(move)
 
     def getAgentBody(self, k):
