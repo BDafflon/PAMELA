@@ -1,6 +1,3 @@
-import util
-import random
-
 class Fustrum:
 	def __init__(self):
 		self.type="fustrum"

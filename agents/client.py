@@ -1,8 +1,7 @@
-import util
 import random
-from agent import Agent
-from vector2D import Vector2D
-from object import Destination
+from agents.agent import Agent
+from helper.vector2D import Vector2D
+from environment.object import Destination
 
 
 class Client(Agent):

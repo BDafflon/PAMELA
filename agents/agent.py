@@ -1,6 +1,5 @@
-import util
-import random
-from body import Body
+from helper import util
+from environment.body import Body
 
 
 class Agent:

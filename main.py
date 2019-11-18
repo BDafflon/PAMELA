@@ -1,11 +1,11 @@
 
 import pygame
-from taxi import Taxi
-from client import Client
-from object import Destination
-from object import EnvironmentalObject
+from agents.taxi import Taxi
+from agents.client import Client
+from environment.object import Destination
+from environment.object import EnvironmentalObject
 
-import environment as env
+from environment import environment as env
 
 # Define some colors
 BLACK = (0, 0, 0)

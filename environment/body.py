@@ -1,13 +1,12 @@
-import util
-import random
-from vector2D import Vector2D
-from fustrum import CircularFustrum
+from helper import util
+from helper.vector2D import Vector2D
+from environment.fustrum import CircularFustrum
 
 class Body:
     def __init__(self):
-        self.id = util.id_generator(10,"1234567890")
+        self.id = util.id_generator(10, "1234567890")
         self.mass=1
-        self.location = Vector2D(util.randomInt(1000),util.randomInt(1000))
+        self.location = Vector2D(util.randomInt(1000), util.randomInt(1000))
         self.fustrum = CircularFustrum(20)
         self.orientation = 0
         self.vitesseMax = 50

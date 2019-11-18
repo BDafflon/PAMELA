@@ -1,7 +1,5 @@
-import util
-import random
-from vector2D import Vector2D
-from fustrum import CircularFustrum
+from helper.vector2D import Vector2D
+
 
 class Object:
 	def __init__(self):

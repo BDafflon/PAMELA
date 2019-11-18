@@ -1,11 +1,8 @@
-import util
-import random
-from taxi import Taxi
-from object import Destination
-from animateAction import AnimateAction
+from helper import util
+from agents.taxi import Taxi
 import time
-from client import Client
-from vector2D import Vector2D
+from agents.client import Client
+from helper.vector2D import Vector2D
 import threading
 import ctypes
 

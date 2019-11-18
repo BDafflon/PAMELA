@@ -1,8 +1,8 @@
-import util
+from helper import util
 import random
-from agent import Agent
-from vector2D import Vector2D
-from client import Client
+from agents.agent import Agent
+from helper.vector2D import Vector2D
+from agents.client import Client
 
 
 class Taxi(Agent):

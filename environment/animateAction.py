@@ -1,12 +1,10 @@
-import util
-import random
-from point2D import Point2D
-from fustrum import CircularFustrum
+from helper.vector2D import Vector2D
+
 
 class AnimateAction:
 	def __init__(self):
 		self.body = None
-		self.move=Point2D(0,0)
+		self.move=Vector2D(0,0)
 		self.rotatoin = 0
 
 	def __init__(self,b,m,r):
