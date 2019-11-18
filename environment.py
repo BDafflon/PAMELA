@@ -13,8 +13,8 @@ import ctypes
 class Environment(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
-        self.boardW = 100
-        self.boardH = 100
+        self.boardW = 1000
+        self.boardH = 1000
         self.running = 1
 
         self.agents = []

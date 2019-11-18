@@ -15,8 +15,8 @@ RED = (255, 0, 0)
 BLUE = (0, 0, 255)
 
 PRINTFUSTRUM = False# This sets the WIDTH and HEIGHT of each grid location
-WIDTH = 5
-HEIGHT = 5
+WIDTH = 1
+HEIGHT = 1
 
 # This sets the margin between each cell
 MARGIN = 0
@@ -90,7 +90,7 @@ while not done:
             column = o.location.y
             if o.type == "Destination":
                 color = BLUE
-            pygame.draw.rect(screen, color, [(MARGIN + WIDTH) * column + MARGIN, (MARGIN + HEIGHT) * row + MARGIN, WIDTH, HEIGHT])
+            pygame.draw.rect(screen, color, [column ,  row , 5, 5])
 
     for agent in myMap.agents:
         row = int(agent.body.location.x)
@@ -101,10 +101,10 @@ while not done:
                 continue
         if agent.type == "Taxi":
             color = BLACK
-        pygame.draw.rect(screen, color, [(MARGIN + WIDTH) * column + MARGIN, (MARGIN + HEIGHT) * row + MARGIN, WIDTH, HEIGHT])
+        pygame.draw.rect(screen, color, [column , row + MARGIN, 5, 5])
 
         if PRINTFUSTRUM:
-            pygame.draw.circle(screen, color, [(MARGIN + WIDTH) * column + MARGIN, (MARGIN + HEIGHT) * row + MARGIN], agent.body.fustrum.radius * WIDTH, 1)# Limit to 60 frames per second
+            pygame.draw.circle(screen, color, [column ,  row ], agent.body.fustrum.radius * 5, 1)# Limit to 60 frames per second
     clock.tick(60)
 
 	# Go ahead and update the screen with what we 've drawn.
