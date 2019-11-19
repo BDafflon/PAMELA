@@ -69,8 +69,9 @@ class Vector2D:
 
     def getNormalized(self):
         if self.getLength() != 0:
-            self.x /= self.getLength()
-            self.y /= self.getLength()
+            f = Vector2D(self)
+            self.x = self.x / f.getLength()
+            self.y = self.y / f.getLength()
             return self
         else:
             return Vector2D(0, 0)

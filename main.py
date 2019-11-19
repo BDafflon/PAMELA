@@ -1,4 +1,3 @@
-
 import pygame
 from agents.taxi import Taxi
 from agents.client import Client
@@ -14,7 +13,7 @@ GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
 
-PRINTFUSTRUM = False# This sets the WIDTH and HEIGHT of each grid location
+PRINTFUSTRUM = True  # This sets the WIDTH and HEIGHT of each grid location
 WIDTH = 1
 HEIGHT = 1
 
@@ -31,7 +30,7 @@ myMap.addObject(Destination(10, 90))
 t = Taxi()
 myMap.addAgent(t)
 
-myMap.addAgent(Taxi())
+#myMap.addAgent(Taxi())
 
 for i in range(1, 100):
     myMap.addAgent(Client())
@@ -39,10 +38,10 @@ for i in range(1, 100):
 myMap.start()
 
 grid = []
-for row in range(myMap.boardW): #Add an empty array that will hold each cell# in this row
-	grid.append([])
+for row in range(myMap.boardW):  # Add an empty array that will hold each cell# in this row
+    grid.append([])
 for column in range(myMap.boardH):
-    	grid[row].append(0)# Append a cell
+    grid[row].append(0)  # Append a cell
 
 # Set row 1, cell 5 to one.(Remember rows and# column numbers start at zero.)
 
@@ -64,33 +63,33 @@ clock = pygame.time.Clock()
 
 # -- -- -- --Main Program Loop-- -- -- -- -- -
 while not done:
-    for event in pygame.event.get(): #User did something
-        if event.type == pygame.QUIT: #If user clicked close
+    for event in pygame.event.get():  # User did something
+        if event.type == pygame.QUIT:  # If user clicked close
             myMap.running = 0
             myMap.raise_exception()
             myMap.join()
-            done = True # Flag that we are done so we exit this loop
-        elif event.type == pygame.MOUSEBUTTONDOWN: #User clicks the mouse.Get the position
-            pos = pygame.mouse.get_pos()# Change the x / y screen coordinates to grid coordinates
+            done = True  # Flag that we are done so we exit this loop
+        elif event.type == pygame.MOUSEBUTTONDOWN:  # User clicks the mouse.Get the position
+            pos = pygame.mouse.get_pos()  # Change the x / y screen coordinates to grid coordinates
             column = pos[0] // (WIDTH + MARGIN)
             row = pos[1] // (HEIGHT + MARGIN)
-           
+
             print("Click ", pos, "Grid coordinates: ", row, column)
             t.body.location.x = row
             t.body.location.y = column
 
-	# Set the screen background
+    # Set the screen background
     screen.fill(WHITE)
 
-	# Draw the grid#
-	 
+    # Draw the grid#
+
     for o in myMap.objects:
         if isinstance(o, EnvironmentalObject):
             row = o.location.x
             column = o.location.y
             if o.type == "Destination":
                 color = BLUE
-            pygame.draw.rect(screen, color, [column ,  row , 5, 5])
+            pygame.draw.rect(screen, color, [column, row, 5, 5])
 
     for agent in myMap.agents:
         row = int(agent.body.location.x)
@@ -101,15 +100,16 @@ while not done:
                 continue
         if agent.type == "Taxi":
             color = BLACK
-        pygame.draw.rect(screen, color, [column , row + MARGIN, 5, 5])
+        pygame.draw.rect(screen, color, [column, row , 5, 5])
 
         if PRINTFUSTRUM:
-            pygame.draw.circle(screen, color, [column ,  row ], agent.body.fustrum.radius * 5, 1)# Limit to 60 frames per second
+            pygame.draw.circle(screen, color, [column, row], agent.body.fustrum.radius * 5,
+                               1)  # Limit to 60 frames per second
     clock.tick(120)
 
-	# Go ahead and update the screen with what we 've drawn.
+    # Go ahead and update the screen with what we 've drawn.
     pygame.display.flip()
 
 # Be IDLE friendly.If you forget this line, the program will 'hang'#
-#on exit.
+# on exit.
 pygame.quit()

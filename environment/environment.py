@@ -44,18 +44,16 @@ class Environment(threading.Thread):
 
             while self.running == 1:
 
-                time.sleep(0.002)
+                time.sleep(0.2)
                 self.perceptionList = {}
                 self.influenceList = {}
 
                 for agent in self.agents:
-
                     self.checkStat(agent)
                 for agent in self.agents:
                     self.computePerception(agent)
 
                 for agent in self.agents:
-
                     self.influenceList[agent.id] = None
                     self.influenceList[agent.id] = agent.update()
 
@@ -89,6 +87,7 @@ class Environment(threading.Thread):
             if agent != a:
                 if a.body.insidePerception(agent.body.location, agent.type):
                     self.perceptionList[a].append(agent)
+
         for objet in self.objects:
             if a.body.insidePerception(objet.location, agent.type):
                 self.perceptionList[a].append(objet)
@@ -98,14 +97,17 @@ class Environment(threading.Thread):
     def applyInfluence(self):
         actionList = {}
         for k, influence in self.influenceList.items():
+
+            if influence.getLength() <= 0:
+                continue
+
             agentBody = self.getAgentBody(k)
 
             if not agentBody is None:
-
                 move = Vector2D(influence.x, influence.y)
                 rotation = 0
                 move = agentBody.computeMove(move)
-                move=move.scale(0.2)
+                move = move.scale(0.2)
                 agentBody.move(move)
 
     def getAgentBody(self, k):
