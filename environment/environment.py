@@ -39,12 +39,15 @@ class Environment(threading.Thread):
                         return a
         return None
 
+    def getFirstTaxi(self):
+        return self.getRandomAgent("Taxi")
+
     def run(self):
         try:
 
             while self.running == 1:
 
-                time.sleep(0.2)
+                time.sleep(0.0002)
                 self.perceptionList = {}
                 self.influenceList = {}
 

@@ -17,8 +17,7 @@ class Body:
         return self.fustrum.inside(self.location, p)
 
     def computeMove(self, v):
-        print('--')
-        print(v)
+
         m = Vector2D(v.x, v.y)
 
         if m.getLength() <= 0:
@@ -28,7 +27,7 @@ class Body:
         if m.getLength() > self.vitesseMax:
             m = m.getNormalized()
             m = m.scale(self.vitesseMax)
-        print(m)
+
         return m
 
     def move(self, v):
