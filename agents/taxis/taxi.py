@@ -2,7 +2,7 @@ from helper import util
 import random
 from agents.agent import Agent
 from helper.vector2D import Vector2D
-from agents.client import Client
+from agents.taxis.client import Client
 
 
 class Taxi(Agent):

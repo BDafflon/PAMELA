@@ -1,12 +1,6 @@
-import time
 import threading
-import ctypes
 import pygame
-from agents.taxi import Taxi
-from agents.client import Client
-from environment.object import Destination
 from environment.object import EnvironmentalObject
-from environment import environment as env
 
 # Define some colors
 BLACK = (0, 0, 0)
@@ -14,6 +8,7 @@ WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
+colors=[BLACK,GREEN,RED,BLUE]
 class Gui(threading.Thread):
     def __init__(self,map):
         threading.Thread.__init__(self)
@@ -54,10 +49,7 @@ class Gui(threading.Thread):
                     row = pos[1] // (self.height + self.margin)
 
                     print("Click ", pos, "Grid coordinates: ", row, column)
-                    t= self.environment.getFirstTaxi()
-                    if not t == None:
-                        t.body.location.x = row
-                        t.body.location.y = column
+
 
             # Set the screen background
             screen.fill(WHITE)
@@ -68,19 +60,17 @@ class Gui(threading.Thread):
                 if isinstance(o, EnvironmentalObject):
                     row = o.location.x
                     column = o.location.y
-                    if o.type == "Destination":
-                        color = BLUE
+
+                    color = BLUE
                     pygame.draw.rect(screen, color, [column, row, 5, 5])
 
             for agent in self.environment.agents:
                 row = int(agent.body.location.x)
                 column = int(agent.body.location.y)
-                if agent.type == "Client":
-                    color = GREEN
-                    if agent.onboard == 1:
-                        continue
-                if agent.type == "Taxi":
-                    color = BLACK
+                if agent.type == "Boid":
+                    color = colors[agent.famille % len(colors)]
+
+
                 pygame.draw.rect(screen, color, [column, row , 5, 5])
 
                 if self.printFustrum:

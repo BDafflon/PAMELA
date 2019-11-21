@@ -1,7 +1,7 @@
 import threading
 
-from agents.client import Client
-from agents.taxi import Taxi
+from agents.taxis.client import Client
+from agents.taxis.taxi import Taxi
 from environment.environment import Environment
 from environment.object import Destination
 
@@ -15,7 +15,7 @@ class Simulation(threading.Thread):
 
 
 
-    def loadDefault(self):
+    def loadDefaultTaxis(self):
         self.environment.addObject(Destination(50, 50))
         self.environment.addObject(Destination(10, 10))
         self.environment.addObject(Destination(90, 10))

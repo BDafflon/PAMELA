@@ -1,7 +1,7 @@
 from helper import util
-from agents.taxi import Taxi
+from agents.taxis.taxi import Taxi
 import time
-from agents.client import Client
+from agents.taxis.client import Client
 from helper.vector2D import Vector2D
 import threading
 import ctypes
