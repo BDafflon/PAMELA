@@ -1,15 +1,15 @@
 import pygame
 
-from gui.guiTaxis import Gui
-from simulation.simulation import Simulation
+from gui.guiTaxis import GuiTaxis
+from simulation.taxisSimulation import SimulationTaxis
 
 
 def runSimulation(path):
-    s=Simulation(path)
+    s=SimulationTaxis(path)
     s.loadDefaultTaxis()
     s.start()
 
-    g = Gui(s.environment)
+    g = GuiTaxis(s.environment)
     g.start()
 
 

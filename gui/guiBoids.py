@@ -9,7 +9,9 @@ GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
 colors=[BLACK,GREEN,RED,BLUE]
-class Gui(threading.Thread):
+
+
+class GuiBoids(threading.Thread):
     def __init__(self,map):
         threading.Thread.__init__(self)
         self.printFustrum = False

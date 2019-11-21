@@ -2,14 +2,14 @@ import threading
 
 from agents.taxis.client import Client
 from agents.taxis.taxi import Taxi
-from environment.environment import Environment
+from environment.application.taxis.environmentTaxis import EnvironmentTaxis
 from environment.object import Destination
 
 
-class Simulation(threading.Thread):
+class SimulationTaxis(threading.Thread):
     def __init__(self,path):
         threading.Thread.__init__(self)
-        self.environment=Environment()
+        self.environment=EnvironmentTaxis()
         self.path=path
         self.ready=False
 
@@ -20,6 +20,7 @@ class Simulation(threading.Thread):
         self.environment.addObject(Destination(10, 10))
         self.environment.addObject(Destination(90, 10))
         self.environment.addObject(Destination(10, 90))
+        self.environment.addObject(Destination(90, 90))
         t = Taxi()
         self.environment.addAgent(t)
 

@@ -1,7 +1,7 @@
 from helper import util
-from agents.taxis.taxi import Taxi
+
 import time
-from agents.taxis.client import Client
+
 from helper.vector2D import Vector2D
 import threading
 import ctypes
@@ -51,8 +51,7 @@ class Environment(threading.Thread):
                 self.perceptionList = {}
                 self.influenceList = {}
 
-                for agent in self.agents:
-                    self.checkStat(agent)
+
                 for agent in self.agents:
                     self.computePerception(agent)
 
@@ -65,24 +64,6 @@ class Environment(threading.Thread):
         finally:
             print('ended')
 
-    def checkStat(self, a):
-
-        if a.stat == -1:
-            self.agents.remove(a)
-
-        if isinstance(a, Client):
-
-            if a.stat == 0:
-                a.addDestination(self.getRandomObject("Destination"))
-
-        if isinstance(a, Taxi):
-
-            if a.stat == 0:
-
-                d = self.getRandomAgent("Client")
-
-                if not d == None:
-                    a.addClient(d)
 
     def computePerception(self, a):
         self.perceptionList[a] = []
