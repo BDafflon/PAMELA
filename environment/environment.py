@@ -42,7 +42,7 @@ class Environment(threading.Thread):
 
             while self.running == 1:
                 self.clock = ((time.time() ))
-                #time.sleep(0.02)
+                time.sleep(0.02)
                 self.perceptionList = {}
                 self.influenceList = {}
 
@@ -86,7 +86,7 @@ class Environment(threading.Thread):
                 move = Vector2D(influence.move.x, influence.move.y)
                 rotation = 0
                 move = agentBody.computeMove(move)
-                move = move.scale(0.2)
+                move = move.scale(0.02)
                 agentBody.move(move)
                 self.edges(agentBody)
 
