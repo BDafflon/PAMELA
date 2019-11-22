@@ -16,11 +16,11 @@ from pyglet.gl import (
 
 from pyglet.window import key
 # Define some colors
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
-GREEN = (0, 255, 0)
-RED = (255, 0, 0)
-BLUE = (0, 0, 255)
+BLACK = [0, 0, 0]
+WHITE = [1, 1, 1]
+GREEN = [0, 1, 0]
+RED = [1, 0, 0]
+BLUE = [0, 0, 1]
 _CHANGE_VECTOR_LENGTH = 15.0
 colors=[BLACK,GREEN,RED,BLUE]
 
@@ -71,7 +71,7 @@ class GuiBoidsGL(threading.Thread):
 
     def render_boid(self,agent):
         glBegin(GL_TRIANGLES)
-        glColor3f(colors[agent.famille % len(colors)])
+        glColor3f(*colors[agent.famille % len(colors)])
         glVertex2f(-(10), 0.0)
         glVertex2f(10, 0.0)
         glVertex2f(0.0, 10 * 3.0)
@@ -79,8 +79,7 @@ class GuiBoidsGL(threading.Thread):
 
     def draw(self,agent, show_velocity=False, show_view=False):
         glPushMatrix()
-
-
+        print(agent.body.location.toString())
         # apply the transformation for the boid
         glTranslatef(agent.body.location.x, agent.body.location.y, 0.0)
 
@@ -96,7 +95,7 @@ class GuiBoidsGL(threading.Thread):
             self.render_view(agent)
 
         # render the boid itself
-        self.render_boid()
+        self.render_boid(agent)
         glPopMatrix()
 
 
@@ -148,7 +147,7 @@ class GuiBoidsGL(threading.Thread):
             glLoadIdentity()
 
             for boid in  self.environment.agents:
-                boid.draw(show_velocity=show_debug, show_view=show_debug, show_vectors=show_vectors)
+                self.draw(boid)
 
             '''for attractor in attractors:
                 attractor.draw()
@@ -159,6 +158,9 @@ class GuiBoidsGL(threading.Thread):
         @window.event
         def on_key_press(symbol, modifiers):
             if symbol == key.Q:
+                self.environment.running = 0
+                self.environment.raise_exception()
+                self.environment.join()
                 pyglet.app.exit()
             elif symbol == key.EQUAL and modifiers & key.MOD_SHIFT:
                 v=0
