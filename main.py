@@ -5,7 +5,7 @@ from simulation.boids.boidsSimulation import SimulationBoids
 def runSimulation(path):
     s=SimulationBoids(path)
     s.loadDefault()
-    s.start()
+    #s.start()
 
     g = GuiBoidsGL(s.environment)
     g.run2()
