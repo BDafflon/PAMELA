@@ -45,6 +45,6 @@ class EnvironmentBoids(Environment):
                 move = Vector2D(influence.move.x, influence.move.y)
                 rotation = 0
                 move = agentBody.computeMove(move)
-                move = move.scale(dt*100)
+                move = move.scale(dt)
                 agentBody.move(move)
                 self.edges(agentBody)
