@@ -14,7 +14,7 @@ colors=[BLACK,GREEN,RED,BLUE]
 class GuiBoids(threading.Thread):
     def __init__(self,map):
         threading.Thread.__init__(self)
-        self.printFustrum = False
+        self.printFustrum = True
         self.width = 1
         self.height=1
         self.margin = 0
@@ -81,7 +81,7 @@ class GuiBoids(threading.Thread):
                 if self.printFustrum:
                     pygame.draw.circle(screen, color, [column, row], agent.body.fustrum.radius,
                                        1)  # Limit to 60 frames per second
-            clock.tick(30)
+            clock.tick(1000)
 
             # Go ahead and update the screen with what we 've drawn.
             pygame.display.flip()
@@ -89,3 +89,4 @@ class GuiBoids(threading.Thread):
         # Be IDLE friendly.If you forget this line, the program will 'hang'#
         # on exit.
         pygame.quit()
+

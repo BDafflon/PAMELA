@@ -13,7 +13,7 @@ class Boid(Agent):
         self.body.mass = 80
         self.body.fustrum.radius = 50
         self.body.vitesseMax=1
-        self.repultion = 50
+        self.repultion = 150
         self.attraction=1
 
     def __init__(self,f):
@@ -23,7 +23,7 @@ class Boid(Agent):
         self.body.mass = 80
         self.body.fustrum.radius = 50
         self.body.vitesseMax = 1
-        self.repultion = 50
+        self.repultion = 150
         self.attraction= 1
 
     def moveRandom(self):

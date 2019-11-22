@@ -8,10 +8,10 @@ import ctypes
 class Environment(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
-        self.boardW = 400
-        self.boardH = 400
+        self.boardW = 800
+        self.boardH = 600
         self.running = 1
-
+        self.clock=0
         self.agents = []
         self.objects = []
         self.perceptionList = {}
@@ -41,8 +41,8 @@ class Environment(threading.Thread):
         try:
 
             while self.running == 1:
-
-                #time.sleep(0.0002)
+                self.clock = ((time.time() ))
+                #time.sleep(0.02)
                 self.perceptionList = {}
                 self.influenceList = {}
 
@@ -55,7 +55,7 @@ class Environment(threading.Thread):
                     self.influenceList[agent.id] = agent.update()
 
                 self.applyInfluence()
-
+                print("Cycle : "+str(((time.time() ))-self.clock))
         finally:
             print('ended')
 

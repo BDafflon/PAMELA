@@ -1,4 +1,4 @@
-from gui.guiBoids import GuiBoids
+from gui.guiBoidsgl import GuiBoidsGL
 from simulation.boids.boidsSimulation import SimulationBoids
 
 
@@ -7,8 +7,8 @@ def runSimulation(path):
     s.loadDefault()
     s.start()
 
-    g = GuiBoids(s.environment)
-    g.start()
+    g = GuiBoidsGL(s.environment)
+    g.run2()
 
 
 runSimulation("")
