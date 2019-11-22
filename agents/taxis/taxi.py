@@ -14,7 +14,7 @@ class Taxi(Agent):
         self.body.mass = 1000
         self.stat = 0
         self.clients = []
-        self.body.fustrum.radius = 20
+        self.body.fustrum.radius = 500
 
     def addClient(self, c):
         if not c in self.clients:

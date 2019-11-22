@@ -15,7 +15,7 @@ class SimulationBoids(threading.Thread):
 
     def loadDefault(self):
 
-        for i in range(1, 10):
+        for i in range(0, 50):
             self.environment.addAgent(Boid(0))
             self.environment.addAgent(Boid(1))
             self.environment.addAgent(Boid(2))

@@ -14,6 +14,7 @@ class CircularFustrum(Fustrum):
 
 	def inside(self,pBody, pObject):
 		if pBody.distance(pObject) < self.radius :
+
 			return True
 		
 

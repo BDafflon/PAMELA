@@ -29,7 +29,7 @@ class EnvironmentTaxis(Environment):
 
                 for agent in self.agents:
                     self.influenceList[agent.id] = None
-                    self.influenceList[agent.id] = agent.update()
+                    self.influenceList[agent.id] = agent.update
 
                 self.applyInfluence()
 

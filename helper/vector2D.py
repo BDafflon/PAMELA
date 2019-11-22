@@ -289,6 +289,8 @@ class Vector2D:
 
     def lengthSquared(self):
         return sqrt(self.x ** 2 + self.y ** 2)*sqrt(self.x ** 2 + self.y ** 2)
+    def toString(self):
+        return "["+str(self.x)+","+str(self.y)+"]"
 
     def __getitem__(self, key):
         if key == "x" or key == "X" or key == 0 or key == "0":

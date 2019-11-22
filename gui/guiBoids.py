@@ -51,7 +51,10 @@ class GuiBoids(threading.Thread):
                     row = pos[1] // (self.height + self.margin)
 
                     print("Click ", pos, "Grid coordinates: ", row, column)
-
+                    t = self.environment.getFirstBoid()
+                    if not t == None:
+                        t.body.location.x = row
+                        t.body.location.y = column
 
             # Set the screen background
             screen.fill(WHITE)
@@ -76,9 +79,9 @@ class GuiBoids(threading.Thread):
                 pygame.draw.rect(screen, color, [column, row , 5, 5])
 
                 if self.printFustrum:
-                    pygame.draw.circle(screen, color, [column, row], agent.body.fustrum.radius * 5,
+                    pygame.draw.circle(screen, color, [column, row], agent.body.fustrum.radius,
                                        1)  # Limit to 60 frames per second
-            clock.tick(60)
+            clock.tick(30)
 
             # Go ahead and update the screen with what we 've drawn.
             pygame.display.flip()

@@ -11,14 +11,20 @@ class Boid(Agent):
         self.type = "Boid"
         self.famille=1
         self.body.mass = 80
-        self.body.fustrum.radius = 10
+        self.body.fustrum.radius = 50
+        self.body.vitesseMax=1
+        self.repultion = 50
+        self.attraction=1
 
     def __init__(self,f):
         Agent.__init__(self)
         self.type = "Boid"
         self.famille = f
         self.body.mass = 80
-        self.body.fustrum.radius = 10
+        self.body.fustrum.radius = 50
+        self.body.vitesseMax = 1
+        self.repultion = 50
+        self.attraction= 1
 
     def moveRandom(self):
         x = int(random.uniform(-2, 2))
@@ -35,24 +41,32 @@ class Boid(Agent):
         return l
 
     def update(self):
-
-        influence = AnimateAction()
+        influence = AnimateAction(None, Vector2D(0,0),0)
         l = []
+
         for a in self.body.fustrum.perceptionList:
             if a.type == "Boid":
                 if a.famille == self.famille:
                     l.append(a)
 
 
-        influence.rotatoin = self.align(l).rotatoin
-        influence.move = self.cohesion(l).move
-        influence.move.x =  influence.move.x + self.separation().move.x
-        influence.move.y = influence.move.y + self.separation().move.y
+        influence.rotatoin = self.align(l)
+        m=self.cohesion(l)
+        m = m.scale(self.attraction)
+
+
+        influence.move = m
+
+        m = self.separation(l)
+        m=m.scale(self.repultion)
+
+        influence.move.x =  influence.move.x + m.x
+        influence.move.y = influence.move.y + m.y
         return influence
 
     def align(self, boids):
-        steering = AnimateAction()
-        total = 0
+        angleAlign = 0
+
 
 
         if len(boids) > 0:
@@ -62,13 +76,13 @@ class Boid(Agent):
                 angle=angle+signedAngle(vOrientation,toOrientationVector(b.body.orientation))
 
             angle=angle/len(boids)
-            steering.rotatoin=angle
+            angleAlign=angle
         else:
-            steering.rotatoin = 0
-        return steering
+            angleAlign = 0
+        return angleAlign
 
     def cohesion(self, boids):
-        steering = AnimateAction()
+        steering = Vector2D(0,0)
 
         if len(boids) > 0:
             center = Vector2D(0,0)
@@ -81,16 +95,17 @@ class Boid(Agent):
             center.y = center.y / len(boids)
 
             dest = Vector2D(0,0)
-            dest.x=self.body.location.x - center.x
-            dest.y=self.body.location.y - center.y
-            steering.move = dest
-            return steering
+            dest.x= center.x - self.body.location.x
+            dest.y= center.y - self.body.location.y
+
+            steering = dest
+        return steering
 
 
 
 
     def separation(self, boids):
-        steering = AnimateAction()
+        steering = Vector2D(0,0)
 
         if len(boids) > 0:
             tmp = Vector2D(0, 0)
@@ -104,5 +119,5 @@ class Boid(Agent):
                 tmp = tmp.scale(1/(tmp.lengthSquared()))
 
                 rep=rep.add(tmp)
-            steering.move=rep
+            steering=rep
         return steering

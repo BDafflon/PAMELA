@@ -8,8 +8,8 @@ import ctypes
 class Environment(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
-        self.boardW = 1000
-        self.boardH = 1000
+        self.boardW = 400
+        self.boardH = 400
         self.running = 1
 
         self.agents = []
@@ -37,15 +37,12 @@ class Environment(threading.Thread):
                         return a
         return None
 
-    def getFirstTaxi(self):
-        return self.getRandomAgent("Taxi")
-
     def run(self):
         try:
 
             while self.running == 1:
 
-                time.sleep(0.0002)
+                #time.sleep(0.0002)
                 self.perceptionList = {}
                 self.influenceList = {}
 
@@ -80,17 +77,29 @@ class Environment(threading.Thread):
         actionList = {}
         for k, influence in self.influenceList.items():
 
-            if influence.getLength() <= 0:
+            if influence == None:
                 continue
 
             agentBody = self.getAgentBody(k)
 
             if not agentBody is None:
-                move = Vector2D(influence.x, influence.y)
+                move = Vector2D(influence.move.x, influence.move.y)
                 rotation = 0
                 move = agentBody.computeMove(move)
                 move = move.scale(0.2)
                 agentBody.move(move)
+                self.edges(agentBody)
+
+    def edges(self,b):
+        if b.location.x > self.boardW:
+            b.location.x = 1
+        elif b.location.x < 0:
+            b.location.x = self.boardW-1
+
+        if b.location.y > self.boardH:
+            b.location.y = 1
+        elif b.location.y < 0:
+            b.location.y = self.boardH-1
 
     def getAgentBody(self, k):
         for a in self.agents:
