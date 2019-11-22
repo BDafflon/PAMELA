@@ -1,12 +1,3 @@
-# -*- coding: utf8 -*-
-"""Vector2D.py: A simple little Vector2D class. Enabling basic Vector2D math. """
-
-__author__ = "Sven Hecht"
-__license__ = "GPL"
-__version__ = "1.0.1"
-__maintainer__ = "Sven Hecht"
-__email__ = "info@shdev.de"
-__status__ = "Production"
 
 from random import *
 from math import *

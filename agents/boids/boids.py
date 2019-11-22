@@ -3,7 +3,6 @@ from agents.agent import Agent
 from environment.animateAction import AnimateAction
 from helper.util import signedAngle, toOrientationVector, randomInt
 from helper.vector2D import Vector2D
-from environment.object import Destination
 
 
 class Boid(Agent):

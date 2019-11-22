@@ -1,7 +1,5 @@
 from helper import util
-
 import time
-
 from helper.vector2D import Vector2D
 import threading
 import ctypes

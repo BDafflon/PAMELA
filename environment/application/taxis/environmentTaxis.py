@@ -1,11 +1,8 @@
 from environment.environment import Environment
-from helper import util
 from agents.taxis.taxi import Taxi
 import time
 from agents.taxis.client import Client
-from helper.vector2D import Vector2D
-import threading
-import ctypes
+
 
 
 class EnvironmentTaxis(Environment):

@@ -15,7 +15,7 @@ class SimulationTaxis(threading.Thread):
 
 
 
-    def loadDefaultTaxis(self):
+    def loadDefault(self):
         self.environment.addObject(Destination(50, 50))
         self.environment.addObject(Destination(10, 10))
         self.environment.addObject(Destination(90, 10))
