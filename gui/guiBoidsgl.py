@@ -34,6 +34,7 @@ class GuiBoidsGL(threading.Thread):
         self.margin = 0
         self.environment = map
 
+
     def get_window_config(self):
         platform = pyglet.window.get_platform()
         display = platform.get_default_display()
