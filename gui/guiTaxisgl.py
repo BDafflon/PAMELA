@@ -28,29 +28,7 @@ BLUE = [0, 0, 1]
 _CHANGE_VECTOR_LENGTH = 15.0
 colors = [BLACK, GREEN, RED, BLUE]
 
-line_vertex_shader = '''
-    #version 330
-    uniform mat4 Projection;
-    in vec2 in_vert;
-    in vec4 in_color;
-    out vec4 v_color;
-    void main() {
-       gl_Position = Projection * vec4(in_vert, 0.0, 1.0);
-       v_color = in_color;
-    }
-'''
-
-line_fragment_shader = '''
-    #version 330
-    in vec4 v_color;
-    out vec4 f_color;
-    void main() {
-        f_color = v_color;
-    }
-'''
-
-
-class GuiBoidsGL(threading.Thread):
+class GuiTaxisGL(threading.Thread):
     def __init__(self, map):
         threading.Thread.__init__(self)
         self.printFustrum = True
@@ -80,7 +58,7 @@ class GuiBoidsGL(threading.Thread):
         mouse_location = (0, 0)
         window = pyglet.window.Window(
             fullscreen=True,
-            caption="Boids Simulation")
+            caption="Taxis Simulation")
 
         glEnable(GL_BLEND)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
@@ -101,6 +79,10 @@ class GuiBoidsGL(threading.Thread):
 
             for b in self.environment.agents:
                 self.drawAgent(b)
+
+            for o in self.environment.objects:
+                self.drawObjet(o)
+
 
         @window.event
         def on_key_press(symbol, modifiers):
@@ -157,14 +139,22 @@ class GuiBoidsGL(threading.Thread):
         glEnd()
 
     def render_agent(self, b):
+        if b.type == "Client":
+            color = 1
+            if b.onboard == 1 :
+                return
+        if b.type == "Taxi":
+            color = 2
         glBegin(GL_TRIANGLES)
-        glColor3f(*colors[b.famille % len(colors)])
+
+        glColor3f(*colors[color])
         glVertex2f(-(5), 0.0)
         glVertex2f(5, 0.0)
         glVertex2f(0.0, 5 * 3.0)
         glEnd()
 
     def drawAgent(self, b):
+
         glPushMatrix()
         # apply the transformation for the boid
         glTranslatef(b.body.location.x, b.body.location.y, 0.0)
