@@ -29,6 +29,12 @@ class Environment(threading.Thread):
             if self.objects[d].type == typeO:
                 return self.objects[d]
 
+    def getFirstObjectByName(self, type):
+        for o in self.objects:
+            if o.type == type:
+                return o
+        return None
+
     def getRandomAgent(self, typeO):
         for a in self.agents:
             if a.type == typeO:

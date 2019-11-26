@@ -18,3 +18,9 @@ class Destination(EnvironmentalObject):
 		self.location = Vector2D(x,y)
 		self.orientation = 0
 		self.type="Destination"
+
+class TargetObjet(EnvironmentalObject):
+	def __init__(self,x,y):
+		EnvironmentalObject.__init__(self)
+		self.location = Vector2D(x,y)
+		self.type = "Attractor"

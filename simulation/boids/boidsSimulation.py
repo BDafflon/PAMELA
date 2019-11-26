@@ -1,7 +1,7 @@
 import threading
 from agents.boids.boids import Boid
 from environment.application.boids.environmentBoids import EnvironmentBoids
-
+from environment.object import TargetObjet
 
 
 class SimulationBoids(threading.Thread):
@@ -15,6 +15,7 @@ class SimulationBoids(threading.Thread):
 
     def loadDefault(self):
 
+        self.environment.addObject(TargetObjet(0,0))
         for i in range(0, 50):
             self.environment.addAgent(Boid(1))
             self.environment.addAgent(Boid(2))

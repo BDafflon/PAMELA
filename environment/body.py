@@ -3,6 +3,11 @@ from helper.vector2D import Vector2D
 from environment.fustrum import CircularFustrum
 
 
+_BOID_COLLISION_DISTANCE = 45.0
+_OBSTACLE_COLLISION_DISTANCE = 250.0
+_MAX_COLLISION_VELOCITY = 1.0
+
+
 class Body:
     def __init__(self):
         self.id = util.id_generator(10, "1234567890")
@@ -14,6 +19,7 @@ class Body:
         self.vitesseMax = 300
         self.vitesseMin = 20.0
         self.accelerationMax = 50
+
 
     def insidePerception(self, p, t):
         return self.fustrum.inside(self.location, p)
