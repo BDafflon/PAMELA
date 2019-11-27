@@ -32,7 +32,7 @@ colors = [BLACK, GREEN, RED, BLUE]
 class GuiBoidsGL(threading.Thread):
     def __init__(self, map):
         threading.Thread.__init__(self)
-        self.printFustrum = False
+        self.printFustrum = True
         self.width = 1
         self.height = 1
         self.margin = 0
@@ -58,7 +58,7 @@ class GuiBoidsGL(threading.Thread):
 
         mouse_location = (0, 0)
         window = pyglet.window.Window(
-            fullscreen=self.printFustrum,
+            fullscreen=False,
             caption="Boids Simulation")
 
         glEnable(GL_BLEND)
@@ -161,7 +161,7 @@ class GuiBoidsGL(threading.Thread):
             self.render_velocity(b)
 
         # render the boid's view
-        if False:
+        if self.printFustrum:
             self.render_view(b)
 
         # render the boid itself
