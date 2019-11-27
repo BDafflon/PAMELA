@@ -2,7 +2,7 @@ from environment.environment import Environment
 from agents.taxis.taxi import Taxi
 import time
 from agents.taxis.client import Client
-
+from helper.vector2D import Vector2D
 
 
 class EnvironmentTaxis(Environment):
@@ -12,29 +12,22 @@ class EnvironmentTaxis(Environment):
     def getFirstTaxi(self):
         return self.getRandomAgent("Taxi")
 
-    def run(self):
-        try:
+    def update(self, dt):
 
-            while self.running == 1:
+        self.perceptionList = {}
+        self.influenceList = {}
 
-                time.sleep(0.0002)
-                self.perceptionList = {}
-                self.influenceList = {}
+        for agent in self.agents:
+            self.checkStat(agent)
 
-                for agent in self.agents:
-                    self.checkStat(agent)
+        for agent in self.agents:
+            self.computePerception(agent)
 
-                for agent in self.agents:
-                    self.computePerception(agent)
+        for agent in self.agents:
+            self.influenceList[agent.id] = None
+            self.influenceList[agent.id] = agent.update
 
-                for agent in self.agents:
-                    self.influenceList[agent.id] = None
-                    self.influenceList[agent.id] = agent.update
-
-                self.applyInfluence()
-
-        finally:
-            print('ended')
+        self.applyInfluence()
 
     def checkStat(self, a):
         if a.stat == -1:
@@ -51,3 +44,18 @@ class EnvironmentTaxis(Environment):
                 if not d == None:
                     a.addClient(d)
 
+    def applyInfluence(self, dt):
+
+        for k, influence in self.influenceList.items():
+
+            if influence is None:
+                continue
+
+            agentBody = self.getAgentBody(k)
+
+            if not agentBody is None:
+                move = Vector2D(influence.move.x, influence.move.y)
+                rotation = 0
+                move = agentBody.computeMove(move)
+                move = move.scale(dt)
+                agentBody.move(move)

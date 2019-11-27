@@ -29,7 +29,7 @@ _CHANGE_VECTOR_LENGTH = 15.0
 colors = [BLACK, GREEN, RED, BLUE]
 
 
-class GuiBoidsGL(threading.Thread):
+class GuiGL(threading.Thread):
     def __init__(self, map):
         threading.Thread.__init__(self)
         self.printFustrum = False
@@ -37,6 +37,7 @@ class GuiBoidsGL(threading.Thread):
         self.height = 1
         self.margin = 0
         self.environment = map
+        self.title="GUI"
 
     def get_window_config(self):
         platform = pyglet.window.get_platform()
@@ -59,7 +60,7 @@ class GuiBoidsGL(threading.Thread):
         mouse_location = (0, 0)
         window = pyglet.window.Window(
             fullscreen=self.printFustrum,
-            caption="Boids Simulation")
+            caption=self.title)
 
         glEnable(GL_BLEND)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
@@ -81,6 +82,8 @@ class GuiBoidsGL(threading.Thread):
             for b in self.environment.agents:
                 self.drawAgent(b)
 
+
+
         @window.event
         def on_key_press(symbol, modifiers):
             if symbol == key.Q:
@@ -95,28 +98,43 @@ class GuiBoidsGL(threading.Thread):
                 nonlocal show_vectors
                 show_vectors = not show_vectors
 
+        @window.event
+        def on_mouse_drag(x, y, *args):
+            nonlocal mouse_location
+            mouse_location = x, y
 
         @window.event
-        def on_mouse_drag(x, y, dx, dy, buttons, modifiers):
-
-            if buttons & pyglet.window.mouse.LEFT:
-                o = self.environment.getFirstObjectByName("Attractor")
-                if o is not None:
-                    o.location = Vector2D(x, y)
-
-
-        @window.event
-        def on_mouse_release( x, y, button, modifiers):
+        def on_mouse_leave(x,y):
             o = self.environment.getFirstObjectByName("Attractor")
             print("leave")
             if o is not None:
                 o.location = Vector2D(-1000, -1000)
 
         @window.event
+        def on_mouse_release( x, y, button, modifiers):
+            nonlocal mouse_location
+            print(mouse_location)
+
+        @window.event
+        def on_mouse_press(x, y, button, modifiers):
+            if button == mouse.LEFT:
+                print("The Left Mouse Was Pressed")
+
+            elif button == mouse.RIGHT:
+                print("Right Mouse Was Pressed")
+
+        @window.event
+        def on_mouse_drag(x, y, dx, dy, buttons, modifiers):
+            print(buttons)
+
+        @window.event
         def on_mouse_motion(x, y, *args):
             nonlocal mouse_location
             mouse_location = x, y
+            o = self.environment.getFirstObjectByName("Attractor")
 
+            if o is not None:
+                o.location = Vector2D(x,y)
 
         pyglet.app.run()
 

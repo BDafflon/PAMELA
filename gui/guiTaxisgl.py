@@ -153,6 +153,31 @@ class GuiTaxisGL(threading.Thread):
         glVertex2f(0.0, 5 * 3.0)
         glEnd()
 
+        def renderObject(self, b):
+            if b.type == "Client":
+                color = 1
+                if b.onboard == 1:
+                    return
+            if b.type == "Taxi":
+                color = 2
+            glBegin(GL_POLYGON)
+
+            glColor3f(*colors[color])
+            glVertex2f(-(5), -5)
+            glVertex2f(5, -5)
+            glVertex2f(5, 5 )
+            glVertex2f(-5, 5)
+            glEnd()
+
+    def drawObject(self,o):
+        glPushMatrix()
+        # apply the transformation for the boid
+        glTranslatef(o.location.x, o.location.y, 0.0)
+
+        # render the object itself
+        self.renderObject(o)
+        glPopMatrix()
+
     def drawAgent(self, b):
 
         glPushMatrix()

@@ -1,3 +1,4 @@
+from environment.animateAction import AnimateAction
 from helper import util
 import random
 from agents.agent import Agent
@@ -80,10 +81,10 @@ class Taxi(Agent):
 
     def update(self):
 
-        influence = Vector2D(0, 0)
+        influence = AnimateAction(None, None, None)
 
         if len(self.clients) == 0:
-            influence = self.moveRandom()
+            influence.move = self.moveRandom()
         else:
 
             cl = self.clients[0]
@@ -100,14 +101,14 @@ class Taxi(Agent):
             i = self.hasClient()
 
             if i > 0:
-                influence = self.moveTo(
+                influence.move = self.moveTo(
                     util.getNextByDistance(self.body.location,
                                            self.waitingClient(self.clients)))
             else:
 
-                influence = self.moveTo(cl.destination)
+                influence.move = self.moveTo(cl.destination)
 
         if len(self.clients) == 0:
             self.stat = 0
-
+        self.body.velocity = influence.move
         return influence

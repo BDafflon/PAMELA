@@ -24,7 +24,7 @@ class Boid(Agent):
         self.allignFactor = 0.045
         self.avoidanceFactor = 7.5
         self.attractorFactor = 0.0035
-        self.obstacleFactor = 200
+        self.obstacleFactor = 500
 
     def __init__(self, f):
         Agent.__init__(self)
@@ -38,12 +38,12 @@ class Boid(Agent):
         self.repultion = 150
         self.collisionDistance = 45.0
         self.collisionDVel = 1
-        self.cohesionFactor = 0.03
+        self.cohesionFactor = 0.3
         self.velocity = [random.uniform(-50.0, 50.0), random.uniform(-50.0, 50.0)]
         self.allignFactor = 0.045
         self.avoidanceFactor = 2.5
         self.attractorFactor = 0.35
-        self.obstacleFactor = 200
+        self.obstacleFactor = 500
 
     def moveRandom(self):
         x = int(random.uniform(-2, 2))
@@ -63,12 +63,12 @@ class Boid(Agent):
                     other.append(b)
             elif b.type == "Attractor":
                 target.append(b)
-        return l,other,target
+        return l, other, target
 
     def update(self):
 
         inf = AnimateAction(None, None, None)
-        nearby_boids,other_b, attractors = self.filtrePerception()
+        nearby_boids, other_b, attractors = self.filtrePerception()
         cohesion_vector = self.average_position(nearby_boids)
         alignment_vector = self.average_velocity(nearby_boids)
         attractor_vector = self.attraction(attractors)
@@ -85,7 +85,6 @@ class Boid(Agent):
         for factor, vec in self.change_vectors:
             self.velocity[0] += factor * vec[0]
             self.velocity[1] += factor * vec[1]
-
 
         self.velocity = util.limit_magnitude(self.velocity, self.body.vitesseMax, self.body.vitesseMin)
         inf.move = Vector2D(self.velocity[0], self.velocity[1])
@@ -139,4 +138,3 @@ class Boid(Agent):
             a[1] += attractor.location.y - self.body.location.y
 
         return a
-
