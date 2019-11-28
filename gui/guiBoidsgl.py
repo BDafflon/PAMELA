@@ -17,6 +17,7 @@ from pyglet.window import key, mouse
 # Define some colors
 from pyglet.window.mouse import LEFT
 
+from gui.guigl import GuiGL
 from helper import util
 from helper.vector2D import Vector2D
 
@@ -29,115 +30,12 @@ _CHANGE_VECTOR_LENGTH = 15.0
 colors = [BLACK, GREEN, RED, BLUE]
 
 
-class GuiBoidsGL(threading.Thread):
+class GuiBoidsGL(GuiGL):
     def __init__(self, map):
-        threading.Thread.__init__(self)
-        self.printFustrum = True
-        self.width = 1
-        self.height = 1
-        self.margin = 0
-        self.environment = map
-
-    def get_window_config(self):
-        platform = pyglet.window.get_platform()
-        display = platform.get_default_display()
-        screen = display.get_default_screen()
-
-        template = Config(double_buffer=True, sample_buffers=1, samples=4)
-        try:
-            config = screen.get_best_config(template)
-        except pyglet.window.NoSuchConfigException:
-            template = Config()
-            config = screen.get_best_config(template)
-
-        return config
-
-    def run2(self):
-        show_debug = False
-        show_vectors = False
-
-        mouse_location = (0, 0)
-        window = pyglet.window.Window(
-            fullscreen=False,
-            caption="Boids Simulation")
-
-        glEnable(GL_BLEND)
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-
-        # window.push_handlers(pyglet.window.event.WindowEventLogger())
-
-        def update(dt):
-            self.environment.update(dt)
-
-        # schedule world updates as often as possible
-        pyglet.clock.schedule(update)
-
-        @window.event
-        def on_draw():
-            glClearColor(0.1, 0.1, 0.1, 1.0)
-            window.clear()
-            glLoadIdentity()
-
-            for b in self.environment.agents:
-                self.drawAgent(b)
-
-        @window.event
-        def on_key_press(symbol, modifiers):
-            if symbol == key.Q:
-                self.environment.running = 0
-                self.environment.raise_exception()
-                self.environment.join()
-                pyglet.app.exit()
-            elif symbol == key.D:
-                nonlocal show_debug
-                show_debug = not show_debug
-            elif symbol == key.V:
-                nonlocal show_vectors
-                show_vectors = not show_vectors
+        GuiGL.__init__(self,map)
+        self.title = "GUI Boids Simulation"
 
 
-        @window.event
-        def on_mouse_drag(x, y, dx, dy, buttons, modifiers):
-
-            if buttons & pyglet.window.mouse.LEFT:
-                o = self.environment.getFirstObjectByName("Attractor")
-                if o is not None:
-                    o.location = Vector2D(x, y)
-
-
-        @window.event
-        def on_mouse_release( x, y, button, modifiers):
-            o = self.environment.getFirstObjectByName("Attractor")
-            print("leave")
-            if o is not None:
-                o.location = Vector2D(-1000, -1000)
-
-        @window.event
-        def on_mouse_motion(x, y, *args):
-            nonlocal mouse_location
-            mouse_location = x, y
-
-
-        pyglet.app.run()
-
-    def render_velocity(self, b):
-        glColor3f(0.6, 0.6, 0.6)
-        glBegin(GL_LINES)
-        glVertex2f(0.0, 0.0)
-        glVertex2f(0.0, b.body.fustrum.radius)
-        glEnd()
-
-    def render_view(self, b):
-        glColor3f(0.6, 0.1, 0.1)
-        glBegin(GL_LINE_LOOP)
-
-        step = 10
-        # render a circle for the boid's view
-        for i in range(-b.body.fustrum.angle, b.body.fustrum.angle + step, step):
-            glVertex2f(b.body.fustrum.radius * math.sin(math.radians(i)),
-                       (b.body.fustrum.radius * math.cos(math.radians(i))))
-        glVertex2f(0.0, 0.0)
-        glEnd()
 
     def render_agent(self, b):
         glBegin(GL_TRIANGLES)
@@ -147,25 +45,5 @@ class GuiBoidsGL(threading.Thread):
         glVertex2f(0.0, 5 * 3.0)
         glEnd()
 
-    def drawAgent(self, b):
-        glPushMatrix()
-        # apply the transformation for the boid
-        glTranslatef(b.body.location.x, b.body.location.y, 0.0)
-
-        # a = signedAngle()
-        glRotatef(math.degrees(math.atan2(b.body.velocity.x, b.body.velocity.y)), 0.0, 0.0, -1.0)
-
-
-        # render the boid's velocity
-        if False:
-            self.render_velocity(b)
-
-        # render the boid's view
-        if self.printFustrum:
-            self.render_view(b)
-
-        # render the boid itself
-        self.render_agent(b)
-        glPopMatrix()
 
 

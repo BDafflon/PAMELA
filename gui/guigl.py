@@ -1,6 +1,4 @@
 import math
-import threading
-
 import pyglet
 from pyglet.gl import (
     Config,
@@ -29,15 +27,14 @@ _CHANGE_VECTOR_LENGTH = 15.0
 colors = [BLACK, GREEN, RED, BLUE]
 
 
-class GuiGL(threading.Thread):
+class GuiGL():
     def __init__(self, map):
-        threading.Thread.__init__(self)
         self.printFustrum = False
         self.width = 1
         self.height = 1
         self.margin = 0
         self.environment = map
-        self.title="GUI"
+        self.title = "GUI"
 
     def get_window_config(self):
         platform = pyglet.window.get_platform()
@@ -81,8 +78,8 @@ class GuiGL(threading.Thread):
 
             for b in self.environment.agents:
                 self.drawAgent(b)
-
-
+            for o in self.environment.objects:
+                self.drawObject(o)
 
         @window.event
         def on_key_press(symbol, modifiers):
@@ -104,16 +101,18 @@ class GuiGL(threading.Thread):
             mouse_location = x, y
 
         @window.event
-        def on_mouse_leave(x,y):
+        def on_mouse_leave(x, y):
             o = self.environment.getFirstObjectByName("Attractor")
             print("leave")
             if o is not None:
                 o.location = Vector2D(-1000, -1000)
 
         @window.event
-        def on_mouse_release( x, y, button, modifiers):
+        def on_mouse_release(x, y, button, modifiers):
             nonlocal mouse_location
-            print(mouse_location)
+            o = self.environment.getFirstObjectByName("Attractor")
+            if o is not None:
+                o.location = Vector2D(-1000, -1000)
 
         @window.event
         def on_mouse_press(x, y, button, modifiers):
@@ -125,16 +124,15 @@ class GuiGL(threading.Thread):
 
         @window.event
         def on_mouse_drag(x, y, dx, dy, buttons, modifiers):
-            print(buttons)
+            o = self.environment.getFirstObjectByName("Attractor")
+            if o is not None:
+                o.location = Vector2D(x, y)
 
         @window.event
         def on_mouse_motion(x, y, *args):
             nonlocal mouse_location
             mouse_location = x, y
-            o = self.environment.getFirstObjectByName("Attractor")
 
-            if o is not None:
-                o.location = Vector2D(x,y)
 
         pyglet.app.run()
 
@@ -165,6 +163,24 @@ class GuiGL(threading.Thread):
         glVertex2f(0.0, 5 * 3.0)
         glEnd()
 
+    def renderObject(self, b):
+        glBegin(GL_POLYGON)
+        glColor3f(*colors[1])
+        glVertex2f(-(5), -5)
+        glVertex2f(5, -5)
+        glVertex2f(5, 5)
+        glVertex2f(-5, 5)
+        glEnd()
+
+    def drawObject(self, o):
+        glPushMatrix()
+        # apply the transformation for the boid
+        glTranslatef(o.location.x, o.location.y, 0.0)
+
+        # render the object itself
+        self.renderObject(o)
+        glPopMatrix()
+
     def drawAgent(self, b):
         glPushMatrix()
         # apply the transformation for the boid
@@ -173,17 +189,14 @@ class GuiGL(threading.Thread):
         # a = signedAngle()
         glRotatef(math.degrees(math.atan2(b.body.velocity.x, b.body.velocity.y)), 0.0, 0.0, -1.0)
 
-
         # render the boid's velocity
         if False:
             self.render_velocity(b)
 
         # render the boid's view
-        if False:
+        if self.printFustrum:
             self.render_view(b)
 
         # render the boid itself
         self.render_agent(b)
         glPopMatrix()
-
-
