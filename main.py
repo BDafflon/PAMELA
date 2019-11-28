@@ -1,13 +1,13 @@
-from gui.guiBoidsgl import GuiBoidsGL
-from simulation.boids.boidsSimulation import SimulationBoids
+from gui.guiSnake import GuiSnake
+from gui.guigl import GuiGL
+from simulation.snake.snakeSimulation import SnakeSimulation
 
 
 def runSimulation(path):
-    s=SimulationBoids(path)
+    s=SnakeSimulation(path)
     s.loadDefault()
-    #s.start()
 
-    g = GuiBoidsGL(s.environment)
+    g = GuiSnake(s.environment)
     g.run2()
 
 

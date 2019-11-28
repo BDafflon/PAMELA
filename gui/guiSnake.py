@@ -27,7 +27,7 @@ _CHANGE_VECTOR_LENGTH = 15.0
 colors = [BLACK, GREEN, RED, BLUE]
 
 
-class GuiGL():
+class GuiSnake():
     def __init__(self, map):
         self.printFustrum = False
         self.width = 1
@@ -156,12 +156,17 @@ class GuiGL():
         glEnd()
 
     def render_agent(self, b):
-        glBegin(GL_TRIANGLES)
-        glColor3f(*colors[1])
-        glVertex2f(-(5), 0.0)
-        glVertex2f(5, 0.0)
-        glVertex2f(0.0, 5 * 3.0)
-        glEnd()
+        halfside = 10;
+        glColor3f(*colors[2])
+
+        glBegin(GL_POLYGON);
+
+        glVertex2f(halfside, halfside);
+        glVertex2f(halfside, - halfside);
+        glVertex2f(-halfside, - halfside);
+        glVertex2f(- halfside, halfside);
+
+        glEnd();
 
     def renderObject(self, b):
         glBegin(GL_POLYGON)
@@ -182,6 +187,7 @@ class GuiGL():
         glPopMatrix()
 
     def drawAgent(self, b):
+
         glPushMatrix()
         # apply the transformation for the boid
         glTranslatef(b.body.location.x, b.body.location.y, 0.0)
@@ -200,3 +206,21 @@ class GuiGL():
         # render the boid itself
         self.render_agent(b)
         glPopMatrix()
+
+        self.renderBodyPart(b)
+
+    def renderBodyPart(self,b):
+        halfside = 4;
+        glColor3f(*colors[1])
+        for q in b.body.tail:
+            glPushMatrix()
+            glTranslatef(q.x, q.y, 0.0)
+            glBegin(GL_POLYGON);
+
+            glVertex2f(halfside, halfside);
+            glVertex2f(halfside, - halfside);
+            glVertex2f(-halfside, - halfside);
+            glVertex2f(- halfside, halfside);
+
+            glEnd();
+            glPopMatrix()

@@ -43,27 +43,48 @@ class Environment(threading.Thread):
                         return a
         return None
 
-    def run(self):
-        try:
+    def update(self, dt):
+        self.clock = (time.time())
 
-            while self.running == 1:
-                self.clock = ((time.time() ))
-                time.sleep(0.02)
-                self.perceptionList = {}
-                self.influenceList = {}
+        self.influenceList = {}
 
+        for agent in self.agents:
+            self.computePerception(agent)
 
-                for agent in self.agents:
-                    self.computePerception(agent)
+        for agent in self.agents:
+            self.influenceList[agent.id] = None
+            self.influenceList[agent.id] = agent.update()
 
-                for agent in self.agents:
-                    self.influenceList[agent.id] = None
-                    self.influenceList[agent.id] = agent.update()
+        self.applyInfluence(dt)
+        # print("dt : " + str(dt))
 
-                self.applyInfluence()
-                print("Cycle : "+str(((time.time() ))-self.clock))
-        finally:
-            print('ended')
+    def applyInfluence(self, dt):
+        actionList = {}
+        for k, influence in self.influenceList.items():
+
+            if influence == None:
+                continue
+
+            agentBody = self.getAgentBody(k)
+
+            if not agentBody is None:
+                move = Vector2D(influence.move.x, influence.move.y)
+                rotation = 0
+                move = agentBody.computeMove(move)
+                move = move.scale(dt)
+                agentBody.move(move)
+                self.edges(agentBody)
+
+    def edges(self, b):
+        if b.location.x > self.boardW:
+            b.location.x = 1
+        elif b.location.x < 0:
+            b.location.x = b.location.x % self.boardW - 1
+
+        if b.location.y > self.boardH:
+            b.location.y = 1
+        elif b.location.y < 0:
+            b.location.y = b.location.y % self.boardH - 1
 
 
 
@@ -81,34 +102,6 @@ class Environment(threading.Thread):
                 self.perceptionList[a].append(objet)
 
         a.body.fustrum.perceptionList = self.perceptionList[a]
-
-    def applyInfluence(self):
-        actionList = {}
-        for k, influence in self.influenceList.items():
-
-            if influence == None:
-                continue
-
-            agentBody = self.getAgentBody(k)
-
-            if not agentBody is None:
-                move = Vector2D(influence.move.x, influence.move.y)
-                rotation = 0
-                move = agentBody.computeMove(move)
-                move = move.scale(0.02)
-                agentBody.move(move)
-                self.edges(agentBody)
-
-    def edges(self,b):
-        if b.location.x > self.boardW:
-            b.location.x = 1
-        elif b.location.x < 0:
-            b.location.x = b.location.x % self.boardW-1
-
-        if b.location.y > self.boardH:
-            b.location.y = 1
-        elif b.location.y < 0:
-            b.location.y = b.location.y % self.boardH-1
 
     def getAgentBody(self, k):
         for a in self.agents:

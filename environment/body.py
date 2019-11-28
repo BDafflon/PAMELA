@@ -39,6 +39,7 @@ class Body:
         return m
 
     def move(self, v):
+
         self.location.x = self.location.x + v.x
         self.location.y = self.location.y + v.y
         self.velocity = v

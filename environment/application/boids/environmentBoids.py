@@ -48,3 +48,14 @@ class EnvironmentBoids(Environment):
                 move = move.scale(dt)
                 agentBody.move(move)
                 self.edges(agentBody)
+
+    def edges(self,b):
+        if b.location.x > self.boardW:
+            b.location.x = 1
+        elif b.location.x < 0:
+            b.location.x = b.location.x % self.boardW-1
+
+        if b.location.y > self.boardH:
+            b.location.y = 1
+        elif b.location.y < 0:
+            b.location.y = b.location.y % self.boardH-1
