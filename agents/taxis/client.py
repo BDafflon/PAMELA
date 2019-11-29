@@ -29,11 +29,9 @@ class Client(Agent):
             if isinstance(a, Client):
                 if a.destination.location == self.destination.location:
                     l.append(a)
-
         return l
 
     def update(self):
-
         influence = Vector2D(0, 0)
         if self.onboard == 1:
             return influence

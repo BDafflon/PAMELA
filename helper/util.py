@@ -1,6 +1,6 @@
-import string
 import random
-import math
+import string
+
 from helper.vector2D import Vector2D
 
 

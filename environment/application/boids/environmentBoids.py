@@ -1,6 +1,5 @@
 from environment.environment import Environment
 import time
-
 from helper.vector2D import Vector2D
 
 

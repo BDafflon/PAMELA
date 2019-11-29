@@ -1,5 +1,3 @@
-import threading
-from agents.boids.boids import Boid
 from agents.snake.snake import Snake
 from environment.environment import Environment
 from environment.object import TargetObjet

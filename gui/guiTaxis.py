@@ -8,12 +8,14 @@ WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
+
+
 class GuiTaxis(threading.Thread):
-    def __init__(self,map):
+    def __init__(self, map):
         threading.Thread.__init__(self)
         self.printFustrum = False
         self.width = 1
-        self.height=1
+        self.height = 1
         self.margin = 0
         self.environment = map
 
@@ -48,8 +50,8 @@ class GuiTaxis(threading.Thread):
                     row = pos[1] // (self.height + self.margin)
 
                     print("Click ", pos, "Grid coordinates: ", row, column)
-                    t= self.environment.getFirstTaxi()
-                    if not t == None:
+                    t = self.environment.getFirstTaxi()
+                    if t is not None:
                         t.body.location.x = row
                         t.body.location.y = column
 
@@ -75,7 +77,7 @@ class GuiTaxis(threading.Thread):
                         continue
                 if agent.type == "Taxi":
                     color = BLACK
-                pygame.draw.rect(screen, color, [column, row , 5, 5])
+                pygame.draw.rect(screen, color, [column, row, 5, 5])
 
                 if self.printFustrum:
                     pygame.draw.circle(screen, color, [column, row], agent.body.fustrum.radius * 5,

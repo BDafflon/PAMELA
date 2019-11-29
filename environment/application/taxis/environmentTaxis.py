@@ -1,6 +1,5 @@
 from environment.environment import Environment
 from agents.taxis.taxi import Taxi
-import time
 from agents.taxis.client import Client
 from helper.vector2D import Vector2D
 

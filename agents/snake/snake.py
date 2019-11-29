@@ -1,9 +1,7 @@
 import random
 from agents.agent import Agent
 from environment.animateAction import AnimateAction
-from environment.application.boids.boidsBody import BoidsBody
 from environment.application.snake.snakeBody import SnakeBody
-from helper import util
 from helper.vector2D import Vector2D
 
 
