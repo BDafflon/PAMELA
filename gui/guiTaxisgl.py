@@ -1,8 +1,10 @@
+import math
+
 from pyglet.gl import (
-    GL_POLYGON)
+    GL_POLYGON, glPushMatrix, glRotatef,glPopMatrix)
 from pyglet.gl import (
     glBegin, glEnd, glColor3f,
-    glVertex2f, GL_TRIANGLES)
+    glVertex2f, GL_TRIANGLES, glTranslatef)
 
 from gui.guigl import GuiGL
 
@@ -38,6 +40,7 @@ class GuiTaxisGL(GuiGL):
         glEnd()
 
     def renderObject(self, b):
+        color = 0
         if b.type == "Client":
             color = 1
             if b.onboard == 1:
@@ -52,3 +55,24 @@ class GuiTaxisGL(GuiGL):
         glVertex2f(5, 5)
         glVertex2f(-5, 5)
         glEnd()
+
+    def drawAgent(self, b):
+        glPushMatrix()
+        # apply the transformation for the boid
+        glTranslatef(b.body.location.x, b.body.location.y, 0.0)
+
+        # a = signedAngle()
+        glRotatef(math.degrees(math.atan2(b.body.velocity.x, b.body.velocity.y)), 0.0, 0.0, -1.0)
+
+        # render the boid's velocity
+        if False:
+            self.render_velocity(b)
+
+        # render the boid's view
+        if self.printFustrum:
+            if b.type == "Taxi":
+                self.render_view(b)
+
+        # render the boid itself
+        self.render_agent(b)
+        glPopMatrix()

@@ -1,5 +1,6 @@
 import random
 from agents.agent import Agent
+from environment.animateAction import AnimateAction
 from helper.vector2D import Vector2D
 from environment.object import Destination
 
@@ -32,20 +33,22 @@ class Client(Agent):
         return l
 
     def update(self):
-        influence = Vector2D(0, 0)
+        influence = AnimateAction(None, None, None)
+        influence.move =Vector2D(0,0)
+
         if self.onboard == 1:
             return influence
         else:
             if self.destination.location.distance(self.body.location) < 5:
                 self.stat = 2
         if self.stat == 0:
-            influence = self.moveRandom()
+            influence.move = self.moveRandom()
         if self.stat == 1:
             l = self.filtrePerception()
 
             for c in l:
                 vect = Vector2D(0, 0)
                 vect = c.body.location.sub(self.body.location)
-                influence = influence.add(vect)
+                influence.move = influence.move.add(vect)
 
         return influence

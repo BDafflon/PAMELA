@@ -1,12 +1,14 @@
 from gui.guiBoidsgl import GuiBoidsGL
+from gui.guiTaxisgl import GuiTaxisGL
 from simulation.boids.boidsSimulation import SimulationBoids
+from simulation.taxis.taxisSimulation import SimulationTaxis
 
 
 def runSimulation(path):
-    s=SimulationBoids(path)
+    s=SimulationTaxis(path)
     s.loadDefault()
 
-    g = GuiBoidsGL(s.environment)
+    g = GuiTaxisGL(s.environment)
     g.run2()
 
 

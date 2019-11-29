@@ -23,7 +23,7 @@ class Boid(Agent):
         self.velocity = random.uniform(-50.0, 50.0), random.uniform(-50.0, 50.0)
         self.allignFactor = 0.045
         self.avoidanceFactor = 7.5
-        self.attractorFactor = 0.0035
+        self.attractorFactor = 0.35
         self.obstacleFactor = 500
 
     def __init__(self, f):

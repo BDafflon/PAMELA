@@ -24,9 +24,9 @@ class EnvironmentTaxis(Environment):
 
         for agent in self.agents:
             self.influenceList[agent.id] = None
-            self.influenceList[agent.id] = agent.update
+            self.influenceList[agent.id] = agent.update()
 
-        self.applyInfluence()
+        self.applyInfluence(dt)
 
     def checkStat(self, a):
         if a.stat == -1:
@@ -40,7 +40,7 @@ class EnvironmentTaxis(Environment):
             if a.stat == 0:
                 d = self.getRandomAgent("Client")
 
-                if not d == None:
+                if  d is not None:
                     a.addClient(d)
 
     def applyInfluence(self, dt):
@@ -52,7 +52,7 @@ class EnvironmentTaxis(Environment):
 
             agentBody = self.getAgentBody(k)
 
-            if not agentBody is None:
+            if agentBody is not None:
                 move = Vector2D(influence.move.x, influence.move.y)
                 rotation = 0
                 move = agentBody.computeMove(move)
