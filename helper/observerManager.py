@@ -23,8 +23,8 @@ class ObserverManager:
             #Client: id, idTaxi, heure de commande, heure de prise en charge, temps de trajet, distance de trajet, temps de marche, distance de marche
 
             #Taxi: id, heure du deplacement, distance, nombre de passagers.
-            writerTaxi.writerow(["id Taxi", "id deplacement", "heure de départ","distance", "temps de deplacement","nombre de passager"])
-            writerClient.writerow(["id Client","id Taxi","heure de commande","heure de prise en charge","temps de trajet","distance theorique","distance de trajet","distance de marche","temps de marche"])
+            writerTaxi.writerow(["id Taxi", "id deplacement", "heure de départ (s)","distance(m)", "temps de deplacement(s)","nombre de passager"])
+            writerClient.writerow(["id Client","id Taxi","heure de commande(s)","heure de prise en charge(s)","temps de trajet(s)","distance theorique(m)","distance de trajet(m)","distance de marche(m)","temps de marche(s)"])
 
             #
             # Écriture des quelques données.
