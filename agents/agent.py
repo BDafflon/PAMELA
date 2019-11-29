@@ -1,6 +1,7 @@
 import random
 from helper import util
 from environment.body import Body
+from helper.observer import Observer
 
 
 class Agent:
@@ -10,6 +11,7 @@ class Agent:
         self.type = "Agent"
         self.body = Body()
         self.stat = 0
+        self.observer = Observer(self.id,"Agent")
 
     def update(self):
         print(self.id)

@@ -4,6 +4,7 @@ from agents.taxis.client import Client
 from agents.taxis.taxi import Taxi
 from environment.application.taxis.environmentTaxis import EnvironmentTaxis
 from environment.object import Destination
+from helper.observerManager import ObserverManager
 
 
 class SimulationTaxis(threading.Thread):
@@ -12,6 +13,7 @@ class SimulationTaxis(threading.Thread):
         self.environment = EnvironmentTaxis()
         self.path = path
         self.ready = False
+        self.obsManager=ObserverManager("./res")
 
     def loadDefault(self):
         self.environment.addObject(Destination(10, 10))
@@ -19,20 +21,19 @@ class SimulationTaxis(threading.Thread):
         self.environment.addObject(Destination(10, 490))
         self.environment.addObject(Destination(490, 490))
         self.environment.addObject(Destination(255, 255))
-        t = Taxi()
+        t = Taxi(self.obsManager)
+
         self.environment.addAgent(t)
 
-        self.environment.addAgent(Taxi())
 
 
 
-        for i in range(1, 20):
-            self.environment.addAgent(Taxi())
-
-        for i in range(1, 200):
-            self.environment.addAgent(Client())
+        for i in range(1, 6):
+            c= Client()
+            self.environment.addAgent(c)
+            self.obsManager.addObservation(c.observer)
         self.ready = True
-        self.ready = True
+
 
     def run(self):
         if self.ready:

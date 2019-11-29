@@ -5,11 +5,13 @@ from simulation.taxis.taxisSimulation import SimulationTaxis
 
 
 def runSimulation(path):
-    s=SimulationTaxis(path)
+    s = SimulationTaxis(path)
     s.loadDefault()
 
     g = GuiTaxisGL(s.environment)
     g.run2()
+    return s.obsManager
 
 
-runSimulation("")
+o = runSimulation("")
+o.write()

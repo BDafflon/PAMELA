@@ -1,6 +1,9 @@
 import random
+import time
+
 from agents.agent import Agent
 from environment.animateAction import AnimateAction
+from helper.observer import  ClientObserver
 from helper.vector2D import Vector2D
 from environment.object import Destination
 
@@ -13,6 +16,7 @@ class Client(Agent):
         self.type = "Client"
         self.body.mass = 80
         self.body.fustrum.radius = 10
+        self.observer = ClientObserver(self.id,time.time())
 
     def moveRandom(self):
         x = int(random.uniform(-2, 2))
@@ -23,6 +27,9 @@ class Client(Agent):
     def addDestination(self, d):
         self.destination = d
         self.stat = 1
+        self.observer.HCommande=time.time()
+        self.observer.distanceTheorique = d.location.distance(self.body.location)
+        print(self.observer.distanceTheorique)
 
     def filtrePerception(self):
         l = []

@@ -84,10 +84,9 @@ class GuiGL():
         @window.event
         def on_key_press(symbol, modifiers):
             if symbol == key.Q:
-                self.environment.running = 0
-                self.environment.raise_exception()
-                self.environment.join()
+
                 pyglet.app.exit()
+                return "toto"
             elif symbol == key.D:
                 nonlocal show_debug
                 show_debug = not show_debug

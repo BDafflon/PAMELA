@@ -23,7 +23,7 @@ colors = [BLACK, GREEN, RED, BLUE]
 class GuiTaxisGL(GuiGL):
     def __init__(self, map):
         GuiGL.__init__(self, map)
-        self.printFustrum = False
+        self.printFustrum = True
 
     def render_agent(self, b):
         if b.type == "Client":
