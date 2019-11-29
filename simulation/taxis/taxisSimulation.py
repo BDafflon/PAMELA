@@ -23,12 +23,15 @@ class SimulationTaxis(threading.Thread):
         self.environment.addAgent(t)
 
         self.environment.addAgent(Taxi())
-        self.environment.addAgent(Taxi())
-        self.environment.addAgent(Taxi())
-        self.environment.addAgent(Taxi())
 
-        for i in range(1, 100):
+
+
+        for i in range(1, 20):
+            self.environment.addAgent(Taxi())
+
+        for i in range(1, 200):
             self.environment.addAgent(Client())
+        self.ready = True
         self.ready = True
 
     def run(self):
