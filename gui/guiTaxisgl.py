@@ -5,12 +5,13 @@ from pyglet.gl import (
 from pyglet.gl import (
     glBegin, glEnd, glColor3f,
     glVertex2f, GL_TRIANGLES, glTranslatef)
+from pyglet.window import mouse
 
 from gui.guigl import GuiGL
 
 # Define some colors
 
-BLACK = [0, 0, 0]
+BLACK = [1, 0, 1]
 WHITE = [1, 1, 1]
 GREEN = [0, 1, 0]
 RED = [1, 0, 0]
@@ -76,3 +77,4 @@ class GuiTaxisGL(GuiGL):
         # render the boid itself
         self.render_agent(b)
         glPopMatrix()
+

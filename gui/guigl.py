@@ -152,7 +152,7 @@ class GuiGL():
         for i in range(-b.body.fustrum.angle, b.body.fustrum.angle + step, step):
             glVertex2f(b.body.fustrum.radius * math.sin(math.radians(i)),
                        (b.body.fustrum.radius * math.cos(math.radians(i))))
-        glVertex2f(0.0, 0.0)
+        #glVertex2f(0.0, 0.0)
         glEnd()
 
     def render_agent(self, b):

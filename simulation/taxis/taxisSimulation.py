@@ -14,11 +14,11 @@ class SimulationTaxis(threading.Thread):
         self.ready = False
 
     def loadDefault(self):
-        self.environment.addObject(Destination(50, 50))
         self.environment.addObject(Destination(10, 10))
-        self.environment.addObject(Destination(90, 10))
-        self.environment.addObject(Destination(10, 90))
-        self.environment.addObject(Destination(90, 90))
+        self.environment.addObject(Destination(490, 10))
+        self.environment.addObject(Destination(10, 490))
+        self.environment.addObject(Destination(490, 490))
+        self.environment.addObject(Destination(255, 255))
         t = Taxi()
         self.environment.addAgent(t)
 
