@@ -110,6 +110,12 @@ class Environment(threading.Thread):
                 return a.body
         return None
 
+    def getAgent(self, k):
+        for a in self.agents:
+            if a.id == k:
+                return a
+        return None
+
     def get_id(self):
 
         # returns id of the respective thread
