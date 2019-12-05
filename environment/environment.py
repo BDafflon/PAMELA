@@ -8,6 +8,7 @@ import ctypes
 class Environment(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
+        self.center=Vector2D(800/2,600/2)
         self.boardW = 800
         self.boardH = 600
         self.running = 1
