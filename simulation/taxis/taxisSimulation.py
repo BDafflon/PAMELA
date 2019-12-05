@@ -37,6 +37,6 @@ class SimulationTaxis(threading.Thread):
 
     def run(self):
         if self.ready:
-            self.environment.start()
+            print("START")
         else:
             print("Erreur de simulation")

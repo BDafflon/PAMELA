@@ -35,6 +35,7 @@ class GuiGL():
         self.margin = 0
         self.environment = map
         self.title = "GUI"
+        self.fullscreen = False;
 
     def get_window_config(self):
         platform = pyglet.window.get_platform()
@@ -56,7 +57,7 @@ class GuiGL():
 
         mouse_location = (0, 0)
         window = pyglet.window.Window(
-            fullscreen=self.printFustrum,
+            fullscreen=self.fullscreen,
             caption=self.title)
 
         glEnable(GL_BLEND)

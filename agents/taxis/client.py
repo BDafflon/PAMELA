@@ -40,14 +40,20 @@ class Client(Agent):
         return l
 
     def update(self):
+
+
         influence = AnimateAction(None, None, None)
         influence.move =Vector2D(0,0)
+        if self.stat == 2:
+            self.stat = -1
+            return influence
 
         if self.onboard == 1:
             return influence
         else:
             if self.destination.location.distance(self.body.location) < 5:
                 self.stat = 2
+
         if self.stat == 0:
             influence.move = self.moveRandom()
         if self.stat == 1:

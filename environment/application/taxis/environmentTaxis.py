@@ -30,7 +30,9 @@ class EnvironmentTaxis(Environment):
 
     def checkStat(self, a):
         if a.stat == -1:
+            print("k")
             self.agents.remove(a)
+
 
         if isinstance(a, Client):
             if a.stat == 0:

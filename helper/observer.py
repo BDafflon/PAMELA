@@ -10,9 +10,6 @@ class Observer:
 
     def update(self, location):
         self.distance=self.distance+abs(self.dernierePosition.distance(location))
-
-        if self.type =="Client":
-            print("--" + str(self.distance))
         self.dernierePosition = Vector2D(location)
 
 

@@ -10,6 +10,7 @@ def runSimulation(path):
 
     g = GuiTaxisGL(s.environment)
     g.run2()
+    s.start()
     return s.obsManager
 
 
