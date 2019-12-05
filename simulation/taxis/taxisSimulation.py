@@ -26,34 +26,20 @@ class SimulationTaxis(threading.Thread):
             line_count = 0
 
             center = Vector2D(0,0)
-            upLeft = Vector2D(0,0)
-            downRight = Vector2D(0,0)
+
             for row in csv_reader:
                 if line_count == 0:
                     print(f'Column names are {", ".join(row)}')
                     line_count += 1
                 else:
                     event = [float(row[0]), float(row[1]), float(row[2]), float(row[3]), float(row[4]), float(row[5]), float(row[6]), float(row[7])]
-                    if line_count==1:
-                            upLeft.x = event[1]
-                            upLeft.y = event[2]
-                            downRight.x = event[1]
-                            downRight.y = event[2]
 
 
                     self.scheduling.append(event)
                     center.x = center.x+event[1]
                     center.y = center.y+ event[2]
 
-                    if upLeft.x > event[1]:
-                        upLeft.x = event[1]
-                    if upLeft.y > event[2]:
-                        upLeft.y = event[2]
 
-                    if downRight.x < event[1]:
-                        downRight.x = event[1]
-                    if downRight.y < event[2]:
-                        downRight.y = event[2]
 
                     print(f'\t{event[0]} s ;  [{event[1]},{event[2]}] to [{event[3]},{event[4]}] - {event[7]} passagers.')
                     line_count += 1
@@ -61,10 +47,34 @@ class SimulationTaxis(threading.Thread):
             center.x=(center.x/line_count)
             center.y=(center.y/line_count)
 
-            print("c: "+center.toString()+ " upLeft :"+upLeft.toString()+" downRight :"+downRight.toString())
+
             self.environment.center=center
-            self.environment.boardW =(downRight.x - upLeft.x)*self.factor
-            self.environment.boardH = (downRight.y - upLeft.y)* self.factor
+            upLeft = Vector2D(0, 0)
+            downRight = Vector2D(0, 0)
+
+            if len(self.scheduling)>=1:
+                upLeft.x = self.scheduling[0][1]
+                upLeft.y = self.scheduling[0][2]
+                downRight.x = self.scheduling[0][1]
+                downRight.y = self.scheduling[0][2]
+
+            for event in self.scheduling:
+                event[1] = event[1]-center.x
+                event[2] = event[2]-center.y
+                if upLeft.x > event[1]:
+                    upLeft.x = event[1]
+                if upLeft.y > event[2]:
+                    upLeft.y = event[2]
+
+                if downRight.x < event[1]:
+                    downRight.x = event[1]
+                if downRight.y < event[2]:
+                    downRight.y = event[2]
+
+            print("c: " + center.toString() + " upLeft :" + upLeft.toString() + " downRight :" + downRight.toString())
+
+            self.environment.boardW =(downRight.x - upLeft.x)
+            self.environment.boardH = (downRight.y - upLeft.y)
             print(self.environment.boardW)
             print(self.environment.boardH)
             self.ready = True
@@ -100,8 +110,8 @@ class SimulationTaxis(threading.Thread):
                     iterator = iterator + 1
                     for i in range(0,int(self.scheduling[iterator][7])):
                         a = Client()
-                        x=self.environment.boardW/2+self.scheduling[iterator][1] + self.environment.center.x
-                        y=self.environment.boardH/2+self.scheduling[iterator][2] + self.environment.center.x
+                        x=self.scheduling[iterator][1] + self.environment.center.x+self.environment.boardW
+                        y=self.scheduling[iterator][2] + self.environment.center.y+self.environment.boardH
 
                         a.body.location=Vector2D(x,y)
                         print("start agent "+ a.body.location.toString())
