@@ -29,6 +29,7 @@ colors = [BLACK, GREEN, RED, BLUE]
 
 class GuiGL():
     def __init__(self, map):
+        self.kill = False
         self.printFustrum = False
         self.width = 1
         self.height = 1
@@ -36,6 +37,7 @@ class GuiGL():
         self.environment = map
         self.title = "GUI"
         self.fullscreen = False;
+        self.scaleFactor=3
 
     def get_window_config(self):
         platform = pyglet.window.get_platform()
@@ -51,6 +53,10 @@ class GuiGL():
 
         return config
 
+    def stop2(self):
+        self.kill = True
+        print("stop")
+
     def run2(self):
         show_debug = False
         show_vectors = False
@@ -58,7 +64,8 @@ class GuiGL():
         mouse_location = (0, 0)
         window = pyglet.window.Window(
             fullscreen=self.fullscreen,
-            caption=self.title)
+            caption=self.title,
+            resizable=True)
 
         glEnable(GL_BLEND)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
@@ -71,8 +78,12 @@ class GuiGL():
         # schedule world updates as often as possible
         pyglet.clock.schedule(update)
 
+
         @window.event
         def on_draw():
+            if self.kill:
+                pyglet.app.exit()
+
             glClearColor(0.1, 0.1, 0.1, 1.0)
             window.clear()
             glLoadIdentity()
@@ -150,8 +161,8 @@ class GuiGL():
         step = 10
         # render a circle for the boid's view
         for i in range(-b.body.fustrum.angle, b.body.fustrum.angle + step, step):
-            glVertex2f(b.body.fustrum.radius * math.sin(math.radians(i)),
-                       (b.body.fustrum.radius * math.cos(math.radians(i))))
+            glVertex2f(b.body.fustrum.radius/self.scaleFactor * math.sin(math.radians(i)),
+                       (b.body.fustrum.radius/self.scaleFactor * math.cos(math.radians(i))))
         #glVertex2f(0.0, 0.0)
         glEnd()
 
@@ -175,7 +186,7 @@ class GuiGL():
     def drawObject(self, o):
         glPushMatrix()
         # apply the transformation for the boid
-        glTranslatef(o.location.x, o.location.y, 0.0)
+        glTranslatef(o.location.x/self.scaleFactor, o.location.y/self.scaleFactor, 0.0)
 
         # render the object itself
         self.renderObject(o)
@@ -184,7 +195,7 @@ class GuiGL():
     def drawAgent(self, b):
         glPushMatrix()
         # apply the transformation for the boid
-        glTranslatef(b.body.location.x, b.body.location.y, 0.0)
+        glTranslatef(b.body.location.x/self.scaleFactor, b.body.location.y/self.scaleFactor, 0.0)
 
         # a = signedAngle()
         glRotatef(math.degrees(math.atan2(b.body.velocity.x, b.body.velocity.y)), 0.0, 0.0, -1.0)
@@ -200,3 +211,4 @@ class GuiGL():
         # render the boid itself
         self.render_agent(b)
         glPopMatrix()
+

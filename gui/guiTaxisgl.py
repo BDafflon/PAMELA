@@ -60,7 +60,7 @@ class GuiTaxisGL(GuiGL):
     def drawAgent(self, b):
         glPushMatrix()
         # apply the transformation for the boid
-        glTranslatef(b.body.location.x, b.body.location.y, 0.0)
+        glTranslatef(b.body.location.x/self.scaleFactor, b.body.location.y/self.scaleFactor, 0.0)
 
         # a = signedAngle()
         glRotatef(math.degrees(math.atan2(b.body.velocity.x, b.body.velocity.y)), 0.0, 0.0, -1.0)

@@ -18,7 +18,12 @@ class SimulationTaxis(threading.Thread):
         self.ready = False
         self.obsManager=ObserverManager("./res")
         self.scheduling=[]
-        self.factor=10000
+        self.factor=10
+        self.nbTaxi = 5
+        self.center = Vector2D(0,0)
+        self.upLeft = Vector2D(0, 0)
+        self.downRight = Vector2D(0, 0)
+        self.Gui=None
 
     def loadScenario(self):
         with open(self.path) as csv_file:
@@ -32,63 +37,66 @@ class SimulationTaxis(threading.Thread):
                     print(f'Column names are {", ".join(row)}')
                     line_count += 1
                 else:
-                    event = [float(row[0]), float(row[1]), float(row[2]), float(row[3]), float(row[4]), float(row[5]), float(row[6]), float(row[7])]
+                    event = [float(row[0]), float(row[1])/ self.factor, float(row[2])/ self.factor, float(row[3])/ self.factor, float(row[4])/ self.factor, float(row[5]), float(row[6]), float(row[7])]
 
 
                     self.scheduling.append(event)
-                    center.x = center.x+event[1]
-                    center.y = center.y+ event[2]
-
-
-
-                    print(f'\t{event[0]} s ;  [{event[1]},{event[2]}] to [{event[3]},{event[4]}] - {event[7]} passagers.')
+                    self.center.x = self.center.x+event[1]
+                    self.center.y = self.center.y+ event[2]
                     line_count += 1
 
-            center.x=(center.x/line_count)
-            center.y=(center.y/line_count)
+            self.center.x=(self.center.x/line_count)
+            self.center.y=(self.center.y/line_count)
 
 
-            self.environment.center=center
-            upLeft = Vector2D(0, 0)
-            downRight = Vector2D(0, 0)
+            self.environment.center=self.center
+            self.upLeft = Vector2D(0, 0)
+            self.downRight = Vector2D(0, 0)
 
             if len(self.scheduling)>=1:
-                upLeft.x = self.scheduling[0][1]
-                upLeft.y = self.scheduling[0][2]
-                downRight.x = self.scheduling[0][1]
-                downRight.y = self.scheduling[0][2]
+                self.upLeft.x = self.scheduling[0][1]
+                self.upLeft.y = self.scheduling[0][2]
+                self.downRight.x = self.scheduling[0][1]
+                self.downRight.y = self.scheduling[0][2]
 
             for event in self.scheduling:
-                event[1] = event[1]-center.x
-                event[2] = event[2]-center.y
-                if upLeft.x > event[1]:
-                    upLeft.x = event[1]
-                if upLeft.y > event[2]:
-                    upLeft.y = event[2]
+                event[1] = event[1]
+                event[2] = event[2]
+                print(f'\t{event[0]} s ;  [{event[1]},{event[2]}] to [{event[3]},{event[4]}] - {event[7]} passagers.')
+                if self.upLeft.x > event[1]:
+                    self.upLeft.x = event[1]
+                if self.upLeft.y > event[2]:
+                    self.upLeft.y = event[2]
 
-                if downRight.x < event[1]:
-                    downRight.x = event[1]
-                if downRight.y < event[2]:
-                    downRight.y = event[2]
+                if self.downRight.x < event[1]:
+                    self.downRight.x = event[1]
+                if self.downRight.y < event[2]:
+                    self.downRight.y = event[2]
 
-            print("c: " + center.toString() + " upLeft :" + upLeft.toString() + " downRight :" + downRight.toString())
+            print("c: " + self.center.toString() + " upLeft :" + self.upLeft.toString() + " downRight :" + self.downRight.toString())
 
-            self.environment.boardW =(downRight.x - upLeft.x)
-            self.environment.boardH = (downRight.y - upLeft.y)
+            self.environment.boardW =(self.downRight.x - self.upLeft.x)
+            self.environment.boardH = (self.downRight.y - self.upLeft.y)
             print(self.environment.boardW)
             print(self.environment.boardH)
             self.ready = True
 
     def loadDestination(self):
-        self.environment.addObject(Destination(10, 10))
-        self.environment.addObject(Destination(490, 10))
-        self.environment.addObject(Destination(10, 490))
-        self.environment.addObject(Destination(490, 490))
-        self.environment.addObject(Destination(255, 255))
+        x=(self.downRight.x+self.upLeft.x)/2
+        y = (self.downRight.y + self.upLeft.y) / 2
+        self.environment.addObject(Destination(x-self.center.x+self.environment.boardW/2, y-self.center.y+self.environment.boardH/2))
+        self.environment.addObject(Destination(self.downRight.x-self.center.x+self.environment.boardW/2, self.upLeft.y-self.center.y+self.environment.boardH/2))
+        self.environment.addObject(Destination(self.upLeft.x -self.center.x+self.environment.boardW/2, self.downRight.y-self.center.y+self.environment.boardH/2))
+        self.environment.addObject(Destination(self.downRight.x-self.center.x+self.environment.boardW/2, self.downRight.y-self.center.y+self.environment.boardH/2))
+        self.environment.addObject(Destination(self.upLeft.x-self.center.x+self.environment.boardW/2, self.upLeft.y-self.center.y+self.environment.boardH/2))
 
-    def loadTaxi(self,n):
-        for i in range(0,n):
+    def loadTaxi(self):
+        x = (self.downRight.x + self.upLeft.x) / 2
+        y = (self.downRight.y + self.upLeft.y) / 2
+        for i in range(0,self.nbTaxi):
             t = Taxi(self.obsManager)
+            t.body.location=Vector2D(x-self.center.x+self.environment.boardW/2,y-self.center.y+self.environment.boardH/2)
+            print("Taxi :"+t.body.location.toString())
             self.environment.addAgent(t)
 
     def loadDefault(self):
@@ -104,19 +112,21 @@ class SimulationTaxis(threading.Thread):
             print("START")
             iterator = 0;
             startTime = int(time.time())
-            while iterator < len(self.scheduling):
+            while iterator < len(self.scheduling)-1:
                 elapseTime = int(time.time()) - startTime
                 if elapseTime>self.scheduling[iterator][0]:
                     iterator = iterator + 1
                     for i in range(0,int(self.scheduling[iterator][7])):
                         a = Client()
-                        x=self.scheduling[iterator][1] + self.environment.center.x+self.environment.boardW
-                        y=self.scheduling[iterator][2] + self.environment.center.y+self.environment.boardH
+                        x=self.scheduling[iterator][1] - self.environment.center.x +self.environment.boardW/2
+                        y=self.scheduling[iterator][2] - self.environment.center.y +self.environment.boardH/2
 
                         a.body.location=Vector2D(x,y)
-                        print("start agent "+ a.body.location.toString())
+                        print("start agent "+str(iterator)+"/"+str(len(self.scheduling))+" "+ a.body.location.toString())
                         self.environment.addAgent(a)
                         self.obsManager.addObservation(a.observer)
+            print("Fin de simulation")
+            self.Gui.stop2()
 
 
         else:

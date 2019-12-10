@@ -6,16 +6,20 @@ from simulation.taxis.taxisSimulation import SimulationTaxis
 
 def runSimulation(path):
     s = SimulationTaxis(path)
-    s.loadDestination()
-    s.loadTaxi(1)
+
     s.loadScenario()
+    s.loadTaxi()
+    s.loadDestination()
 
     g = GuiTaxisGL(s.environment)
 
+    s.Gui = g
     s.start()
     g.run2()
+    g.stop2()
+
     return s.obsManager
 
 
-o = runSimulation("./scenario/scenario.csv")
+o = runSimulation("./scenario/scenarioTaxi.csv")
 o.write()
