@@ -51,7 +51,7 @@ class Client(Agent):
         if self.onboard == 1:
             return influence
         else:
-            if self.destination.location.distance(self.body.location) < 5:
+            if self.destination.location.distance(self.body.location) < 2:
                 self.stat = 2
 
         if self.stat == 0:
