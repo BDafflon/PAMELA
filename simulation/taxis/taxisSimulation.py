@@ -19,7 +19,7 @@ class SimulationTaxis(threading.Thread):
         self.obsManager=ObserverManager("./res")
         self.scheduling=[]
         self.factor=10
-        self.nbTaxi = 5
+        self.nbTaxi = 50
         self.center = Vector2D(0,0)
         self.upLeft = Vector2D(0, 0)
         self.downRight = Vector2D(0, 0)
@@ -117,12 +117,14 @@ class SimulationTaxis(threading.Thread):
                 if elapseTime>self.scheduling[iterator][0]:
                     iterator = iterator + 1
                     for i in range(0,int(self.scheduling[iterator][7])):
+                        d = self.environment.getRandomObject("Destination")
                         a = Client()
+                        a.addDestination(d)
                         x=self.scheduling[iterator][1] - self.environment.center.x +self.environment.boardW/2
                         y=self.scheduling[iterator][2] - self.environment.center.y +self.environment.boardH/2
 
                         a.body.location=Vector2D(x,y)
-                        print("start agent "+str(iterator)+"/"+str(len(self.scheduling))+" "+ a.body.location.toString())
+                        print("start agent "+str(iterator)+"/"+str(len(self.scheduling))+" t:"+ str(elapseTime))
                         self.environment.addAgent(a)
                         self.obsManager.addObservation(a.observer)
             print("Fin de simulation")

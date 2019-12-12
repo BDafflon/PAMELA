@@ -16,9 +16,9 @@ class Body:
         self.velocity = Vector2D(util.randomInt(50), util.randomInt(50))
         self.fustrum = CircularFustrum(20)
         self.orientation = 0
-        self.vitesseMax = 300
-        self.vitesseMin = 20.0
-        self.accelerationMax = 50
+        self.vitesseMax = 15
+        self.vitesseMin = 1.0
+        self.accelerationMax = 15
 
 
     def insidePerception(self, p, t):

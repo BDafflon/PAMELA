@@ -21,5 +21,5 @@ def runSimulation(path):
     return s.obsManager
 
 
-o = runSimulation("./scenario/scenarioTaxi.csv")
+o = runSimulation("./scenario/scenarioTaxiFull.csv")
 o.write()
