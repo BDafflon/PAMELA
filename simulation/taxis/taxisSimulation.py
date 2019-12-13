@@ -13,6 +13,7 @@ from helper.vector2D import Vector2D
 class SimulationTaxis(threading.Thread):
     def __init__(self, path):
         threading.Thread.__init__(self)
+        self.limitSimulation = 600
         self.environment = EnvironmentTaxis()
         self.path = path
         self.ready = False
@@ -114,6 +115,8 @@ class SimulationTaxis(threading.Thread):
             startTime = int(time.time())
             while iterator < len(self.scheduling)-1:
                 elapseTime = int(time.time()) - startTime
+                if elapseTime>self.limitSimulation:
+                    break
                 if elapseTime>self.scheduling[iterator][0]:
                     iterator = iterator + 1
                     for i in range(0,int(self.scheduling[iterator][7])):
