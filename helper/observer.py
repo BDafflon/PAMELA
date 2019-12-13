@@ -24,7 +24,7 @@ class TaxiObserver(Observer):
         self.nbPassager=0
 
 class ClientObserver(Observer):
-    def __init__(self,id,h):
+    def __init__(self,id,h,location):
         Observer.__init__(self,id,"Client")
         self.idTaxi = ""
         self.HCommande = h
@@ -34,5 +34,6 @@ class ClientObserver(Observer):
         self.distance=0.0
         self.distanceMarche=0.0
         self.tempsMarche=0.0
+        self.dernierePosition=location
 
 

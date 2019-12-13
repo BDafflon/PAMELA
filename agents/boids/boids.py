@@ -20,7 +20,7 @@ class Boid(Agent):
         self.repultion = 150
         self.cohesionFactor = 0.03
         self.collisionDistance = 10
-        self.velocity = random.uniform(-50.0, 50.0), random.uniform(-50.0, 50.0)
+        self.velocity = [random.uniform(-50.0, 50.0), random.uniform(-50.0, 50.0)]
         self.allignFactor = 0.045
         self.avoidanceFactor = 7.5
         self.attractorFactor = 0.35

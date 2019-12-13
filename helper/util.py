@@ -63,6 +63,7 @@ def angle_between(a, b):
 
 
 def limit_magnitude(vector, max_magnitude, min_magnitude=0.0):
+
     mag = magnitude(*vector)
     if mag > max_magnitude:
         normalizing_factor = max_magnitude / mag

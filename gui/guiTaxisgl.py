@@ -23,7 +23,7 @@ colors = [BLACK, GREEN, RED, BLUE]
 class GuiTaxisGL(GuiGL):
     def __init__(self, map):
         GuiGL.__init__(self, map)
-        self.printFustrum = False
+        self.printFustrum = True
 
     def render_agent(self, b):
         if b.type == "Client":
@@ -71,8 +71,8 @@ class GuiTaxisGL(GuiGL):
 
         # render the boid's view
         if self.printFustrum:
-            if b.type == "Taxi":
-                self.render_view(b)
+
+            self.render_view(b)
 
         # render the boid itself
         self.render_agent(b)

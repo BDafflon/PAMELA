@@ -1,12 +1,13 @@
 import time
-
 from environment.animateAction import AnimateAction
 from helper import util
 import random
 from agents.agent import Agent
 from helper.observer import TaxiObserver
+from helper.policy import TaxisPolicy
 from helper.vector2D import Vector2D
 from agents.taxis.client import Client
+
 
 
 class Taxi(Agent):
@@ -21,6 +22,7 @@ class Taxi(Agent):
         self.body.fustrum.radius = 200
         self.observerM = obs
         self.observer = None
+        self.policy = TaxisPolicy.MAXPASSAGER
 
     def addClient(self, c):
         if not c in self.clients:
@@ -96,7 +98,8 @@ class Taxi(Agent):
 
             cl = self.clients[0]
 
-            l = self.filtreClient(cl)
+            if self.policy == TaxisPolicy.MAXPASSAGER :
+                l = self.filtreClient(cl)
 
             for c in self.clients:
 
