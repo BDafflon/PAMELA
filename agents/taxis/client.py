@@ -40,8 +40,8 @@ class Client(Agent):
         self.stat = 1
         self.observer.HCommande = time.time()
         self.observer.distanceTheorique = d.location.distance(self.body.location)
-        self.observer.updateMarche(self.body.location)
-        self.observer.distanceMarche=0
+        print(self.id)
+
 
     def filtrePerception(self):
         l = []
@@ -67,6 +67,7 @@ class Client(Agent):
         else:
             if self.destination.location.distance(self.body.location) < 2:
                 self.stat = 2
+                return influence
 
         if self.stat == 0:
             influence.move = self.moveRandom()

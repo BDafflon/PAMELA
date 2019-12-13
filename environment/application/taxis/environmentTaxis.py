@@ -32,7 +32,6 @@ class EnvironmentTaxis(Environment):
         if a.stat == -1:
             self.agents.remove(a)
 
-
         if isinstance(a, Client):
             if a.stat == 0:
                 a.addDestination(self.getRandomObject("Destination"))
@@ -41,7 +40,7 @@ class EnvironmentTaxis(Environment):
             if a.stat == 0:
                 d = self.getRandomAgent("Client")
 
-                if  d is not None:
+                if d is not None:
                     a.addClient(d)
 
     def applyInfluence(self, dt):
