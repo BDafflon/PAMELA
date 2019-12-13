@@ -40,7 +40,7 @@ class Client(Agent):
         self.stat = 1
         self.observer.HCommande = time.time()
         self.observer.distanceTheorique = d.location.distance(self.body.location)
-        print(self.observer.distanceTheorique)
+        self.dernierePositionM = self.body.location
 
     def filtrePerception(self):
         l = []
@@ -78,10 +78,9 @@ class Client(Agent):
                 if self.policy == ClientsPolicy.COHESION:
                     cohesion_vector = self.average_position(nearby_client)
                     alignment_vector = self.average_velocity(nearby_client)
-                    if (cohesion_vector[0]+cohesion_vector[1])!=0:
 
-                        influence.move = self.moveTo(cohesion_vector)
-                        self.observer.updateMarche(self.body.location)
+                    influence.move = self.moveTo(cohesion_vector)
+                    self.observer.updateMarche(self.body.location)
 
         self.body.velocity = influence.move
         return influence
