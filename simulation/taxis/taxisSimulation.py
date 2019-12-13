@@ -86,11 +86,11 @@ class SimulationTaxis(threading.Thread):
         x=(self.downRight.x+self.upLeft.x)/2
         y = (self.downRight.y + self.upLeft.y) / 2
         self.environment.addObject(Destination(x-self.center.x+self.environment.boardW/2, y-self.center.y+self.environment.boardH/2))
-        self.environment.addObject(Destination(self.downRight.x-self.center.x+self.environment.boardW/2, self.upLeft.y-self.center.y+self.environment.boardH/2))
+        '''self.environment.addObject(Destination(self.downRight.x-self.center.x+self.environment.boardW/2, self.upLeft.y-self.center.y+self.environment.boardH/2))
         self.environment.addObject(Destination(self.upLeft.x -self.center.x+self.environment.boardW/2, self.downRight.y-self.center.y+self.environment.boardH/2))
         self.environment.addObject(Destination(self.downRight.x-self.center.x+self.environment.boardW/2, self.downRight.y-self.center.y+self.environment.boardH/2))
         self.environment.addObject(Destination(self.upLeft.x-self.center.x+self.environment.boardW/2, self.upLeft.y-self.center.y+self.environment.boardH/2))
-
+'''
     def loadTaxi(self):
         x = (self.downRight.x + self.upLeft.x) / 2
         y = (self.downRight.y + self.upLeft.y) / 2
@@ -117,6 +117,7 @@ class SimulationTaxis(threading.Thread):
                 elapseTime = int(time.time()) - startTime
                 if elapseTime>self.limitSimulation:
                     break
+
                 if elapseTime>self.scheduling[iterator][0]:
                     iterator = iterator + 1
                     for i in range(0,int(self.scheduling[iterator][7])):

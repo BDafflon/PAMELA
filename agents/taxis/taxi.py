@@ -104,6 +104,7 @@ class Taxi(Agent):
             for c in self.clients:
 
                 if c.onboard == 1:
+                    c.body.location=self.body.location
                     c.observer.update(self.body.location)
 
                 if c.body.location.distance(self.body.location) < 2:

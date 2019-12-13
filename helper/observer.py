@@ -34,6 +34,9 @@ class ClientObserver(Observer):
         self.distance=0.0
         self.distanceMarche=0.0
         self.tempsMarche=0.0
-        self.dernierePosition=location
+        self.dernierePositionM=location
 
 
+    def updateMarche(self, location):
+        self.distanceMarche=self.distanceMarche+abs(self.dernierePositionM.distance(location))
+        self.dernierePositionM = Vector2D(location)

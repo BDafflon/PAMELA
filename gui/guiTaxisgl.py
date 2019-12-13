@@ -71,9 +71,11 @@ class GuiTaxisGL(GuiGL):
 
         # render the boid's view
         if self.printFustrum:
-
-            self.render_view(b)
-
+            if b.type == "Taxi" :
+                self.render_view(b)
+            elif b.type == "Client":
+                if b.onboard != 1:
+                    self.render_view(b)
         # render the boid itself
         self.render_agent(b)
         glPopMatrix()

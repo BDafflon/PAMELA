@@ -17,18 +17,23 @@ class Client(Agent):
         self.onboard = -1
         self.type = "Client"
         self.body.mass = 80
-        self.body.vitesseMax = 1
+        self.body.vitesseMax = 100
         self.body.fustrum.radius = 100
         self.policy = ClientsPolicy.COHESION
         self.observer = ClientObserver(self.id, time.time(),self.body.location)
         self.cohesionFactor = 0.03
         self.velocity = [random.uniform(-50.0, 50.0), random.uniform(-50.0, 50.0)]
+        self.allignFactor = 0.045
 
     def moveRandom(self):
         x = int(random.uniform(-2, 2))
         y = int(random.uniform(-2, 2))
 
         return Vector2D(x, y)
+
+    def moveTo(self, d):
+        return Vector2D(d[0] - self.body.location.x,
+                        d[1] - self.body.location.y)
 
     def addDestination(self, d):
         self.destination = d
@@ -40,9 +45,10 @@ class Client(Agent):
     def filtrePerception(self):
         l = []
         for a in self.body.fustrum.perceptionList:
-            if isinstance(a, Client):
-                if a.destination.location == self.destination.location:
-                    l.append(a)
+            if a.type=="Client":
+                if a.onboard != 1:
+                    if a.destination.location == self.destination.location:
+                        l.append(a)
         return l
 
     def update(self):
@@ -65,33 +71,43 @@ class Client(Agent):
             influence.move = self.moveRandom()
 
         if self.stat == 1:
-            l = self.filtrePerception()
+            nearby_client = self.filtrePerception()
             influence.move = Vector2D(0.0, 0.0)
 
-            if len(l) > 0:
+            if len(nearby_client) > 0:
                 if self.policy == ClientsPolicy.COHESION:
-                    c = self.average_position(l)
-                    self.velocity[0] = c.x * self.cohesionFactor
-                    self.velocity[1] = c.y * self.cohesionFactor
+                    cohesion_vector = self.average_position(nearby_client)
+                    alignment_vector = self.average_velocity(nearby_client)
+                    if (cohesion_vector[0]+cohesion_vector[1])!=0:
 
-                    self.velocity = util.limit_magnitude(self.velocity, self.body.vitesseMax, self.body.vitesseMin)
-                    influence.move = Vector2D(self.velocity[0], self.velocity[1])
-                    self.observer.update(self.body.location)
-                    self.body.velocity = influence.move
+                        influence.move = self.moveTo(cohesion_vector)
+                        self.observer.updateMarche(self.body.location)
 
+        self.body.velocity = influence.move
         return influence
 
-    def average_position(self, nearby_clients):
+    def average_position(self, nearly_clients):
+        if len(nearly_clients) > 0:
+            sum_x, sum_y = 0.0, 0.0
+            for boid in nearly_clients:
+                sum_x += boid.body.location.x
+                sum_y += boid.body.location.y
 
-        if len(nearby_clients) > 0:
-
-            sum = Vector2D(0.0, 0.0)
-            for c in nearby_clients:
-                sum.x += c.body.location.x
-                sum.y += c.body.location.y
-
-            average = Vector2D((sum.x / len(nearby_clients)), (sum.y / len(nearby_clients)))
-
-            return average
+            average_x, average_y = (sum_x / len(nearly_clients), sum_y / len(nearly_clients))
+            return [average_x - self.body.velocity.x, average_y - self.body.velocity.y]
         else:
-            return Vector2D(0.0, 0.0)
+            return [0.0, 0.0]
+
+    def average_velocity(self, nearly_clients):
+
+        if len(nearly_clients) > 0:
+            sum_x, sum_y = 0.0, 0.0
+            for boid in nearly_clients:
+                sum_x += boid.body.velocity.x
+                sum_y += boid.body.velocity.y
+
+            average_x, average_y = (sum_x / len(nearly_clients), sum_y / len(nearly_clients))
+
+            return [average_x - self.body.velocity.x, average_y - self.body.velocity.y]
+        else:
+            return [0.0, 0.0]
