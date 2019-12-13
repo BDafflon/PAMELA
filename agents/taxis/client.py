@@ -40,7 +40,8 @@ class Client(Agent):
         self.stat = 1
         self.observer.HCommande = time.time()
         self.observer.distanceTheorique = d.location.distance(self.body.location)
-        self.dernierePositionM = self.body.location
+        self.observer.updateMarche(self.body.location)
+        self.observer.distanceMarche=0
 
     def filtrePerception(self):
         l = []
