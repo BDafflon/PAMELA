@@ -63,6 +63,7 @@ class Client(Agent):
             return influence
 
         if self.onboard == 1:
+            self.observer.update(self.body.location)
             return influence
         else:
             if self.destination.location.distance(self.body.location) < 2:
