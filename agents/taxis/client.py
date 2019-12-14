@@ -17,7 +17,7 @@ class Client(Agent):
         self.onboard = -1
         self.type = "Client"
         self.body.mass = 80
-        self.body.vitesseMax = 100
+        self.body.vitesseMax = 1
         self.body.fustrum.radius = 100
         self.policy = ClientsPolicy.COHESION
         self.observer = ClientObserver(self.id, time.time(),self.body.location)
@@ -63,7 +63,6 @@ class Client(Agent):
             return influence
 
         if self.onboard == 1:
-            self.observer.update(self.body.location)
             return influence
         else:
             if self.destination.location.distance(self.body.location) < 2:

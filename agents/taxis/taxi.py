@@ -9,9 +9,8 @@ from helper.vector2D import Vector2D
 from agents.taxis.client import Client
 
 
-
 class Taxi(Agent):
-    def __init__(self,obs):
+    def __init__(self, obs):
         Agent.__init__(self)
         self.capacity = 5
         self.occupation = 0
@@ -20,12 +19,13 @@ class Taxi(Agent):
         self.stat = 0
         self.clients = []
         self.body.fustrum.radius = 200
+        self.body.vitesseMax=15
         self.observerM = obs
         self.observer = None
         self.policy = TaxisPolicy.MAXPASSAGER
 
     def addClient(self, c):
-        if not c in self.clients:
+        if c not in self.clients:
             if self.capacity - self.occupation > 0:
                 self.clients.append(c)
                 self.stat = 1
@@ -56,10 +56,10 @@ class Taxi(Agent):
         return i
 
     def hasClientOn(self):
-        i=0
+        i = 0
         for c in self.clients:
             if c.onboard == 1:
-               i=i+1
+                i = i + 1
         return i
 
     def filtreClient(self, cl):
@@ -98,28 +98,26 @@ class Taxi(Agent):
 
             cl = self.clients[0]
 
-            if self.policy == TaxisPolicy.MAXPASSAGER :
+            if self.policy == TaxisPolicy.MAXPASSAGER:
                 l = self.filtreClient(cl)
 
             for c in self.clients:
 
                 if c.onboard == 1:
-                    c.body.location=self.body.location
+                    c.body.location = self.body.location
+                    c.observer.update(self.body.location)
 
-
-                if c.body.location.distance(self.body.location) < 2:
+                elif c.body.location.distance(self.body.location) < 2:
                     c.onboard = 1
-
-                    c.observer.HPriseEnCharge=time.time()
-                    c.observer.idTaxi=self.id
+                    c.observer.HPriseEnCharge = time.time()
+                    c.observer.idTaxi = self.id
                     c.observer.update(self.body.location)
                     c.observer.distance = 0
 
                 if c.destination.location.distance(self.body.location) < 2:
                     if cl.onboard == 1:
-
                         self.removeClient(cl)
-                        c.observer.tempsTrajet = time.time()-c.observer.HPriseEnCharge
+                        c.observer.tempsTrajet = time.time() - c.observer.HPriseEnCharge
 
             i = self.hasClient()
 
@@ -148,17 +146,15 @@ class Taxi(Agent):
             if self.observer.nbPassager != self.hasClientOn():
                 self.observer.temps = time.time() - self.observer.HDepart
                 self.observerM.addObservation(self.observer)
-                if self.hasClientOn()==0:
+                if self.hasClientOn() == 0:
                     self.observer = None
                 else:
-                    t= self.observer.idDeplacement
+                    t = self.observer.idDeplacement
                     p = self.hasClientOn()
-                    self.observer = TaxiObserver(self.id,time.time())
+                    self.observer = TaxiObserver(self.id, time.time())
                     self.observer.idDeplacement = t
                     self.observer.nbPassager = p
                     self.observer.update(self.body.location)
                     self.observer.distance = 0
             else:
                 self.observer.update(self.body.location)
-
-
