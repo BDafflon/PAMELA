@@ -19,7 +19,7 @@ class Taxi(Agent):
         self.stat = 0
         self.clients = []
         self.body.fustrum.radius = 200
-        self.body.vitesseMax=15
+        self.body.vitesseMax = 15
         self.observerM = obs
         self.observer = None
         self.policy = TaxisPolicy.MAXPASSAGER
@@ -64,17 +64,11 @@ class Taxi(Agent):
 
     def filtreClient(self, cl):
         l = []
-
         for a in self.body.fustrum.perceptionList:
-
             if isinstance(a, Client):
-
                 if a.stat == 1:
-
                     if a.onboard == -1:
-
                         if a.destination.location == cl.destination.location:
-
                             if self.capacity - self.occupation > 0:
                                 self.addClient(a)
                                 l.append(a)
@@ -105,19 +99,20 @@ class Taxi(Agent):
 
                 if c.onboard == 1:
                     c.body.location = self.body.location
-                    c.observer.update(self.body.location)
+                    print(c.id)
+                    c.observer.update(self.body.location,"Client")
+
+                    if c.destination.location.distance(self.body.location) < 2:
+                        self.removeClient(c)
+                        c.observer.tempsTrajet = time.time() - c.observer.HPriseEnCharge
 
                 elif c.body.location.distance(self.body.location) < 2:
                     c.onboard = 1
                     c.observer.HPriseEnCharge = time.time()
                     c.observer.idTaxi = self.id
-                    c.observer.update(self.body.location)
+                    print(c.id)
+                    c.observer.update(self.body.location,"Client")
                     c.observer.distance = 0
-
-                if c.destination.location.distance(self.body.location) < 2:
-                    if cl.onboard == 1:
-                        self.removeClient(cl)
-                        c.observer.tempsTrajet = time.time() - c.observer.HPriseEnCharge
 
             i = self.hasClient()
 
@@ -139,7 +134,7 @@ class Taxi(Agent):
             self.observer = TaxiObserver(self.id, time.time())
             self.observer.idDeplacement = util.id_generator(10, "123456789")
             self.observer.nbPassager = 0
-            self.observer.update(self.body.location)
+            self.observer.update(self.body.location,"Taxi")
             self.observer.distance = 0
         else:
 
@@ -154,7 +149,7 @@ class Taxi(Agent):
                     self.observer = TaxiObserver(self.id, time.time())
                     self.observer.idDeplacement = t
                     self.observer.nbPassager = p
-                    self.observer.update(self.body.location)
+                    self.observer.update(self.body.location,"taxi")
                     self.observer.distance = 0
             else:
-                self.observer.update(self.body.location)
+                self.observer.update(self.body.location,"taxi")

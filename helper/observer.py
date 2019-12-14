@@ -7,10 +7,15 @@ class Observer:
         self.id = id
         self.type = type
         self.dernierePosition = Vector2D(0, 0)
+        self.distance=0
 
-    def update(self, location):
+    def update(self, location,type):
+        if type=="Client":
+            print('update 1 : '+str(self.distance))
         self.distance = self.distance + abs(self.dernierePosition.distance(location))
         self.dernierePosition = Vector2D(location)
+        if type == "Client":
+            print('update 2 : ' + str(self.distance))
 
 
 class TaxiObserver(Observer):

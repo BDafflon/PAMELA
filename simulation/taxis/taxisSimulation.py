@@ -13,14 +13,14 @@ from helper.vector2D import Vector2D
 class SimulationTaxis(threading.Thread):
     def __init__(self, path):
         threading.Thread.__init__(self)
-        self.limitSimulation = 600
+        self.limitSimulation = 6000
         self.environment = EnvironmentTaxis()
         self.path = path
         self.ready = False
         self.obsManager = ObserverManager("./res")
         self.scheduling = []
         self.factor = 10
-        self.nbTaxi = 25
+        self.nbTaxi = 1
         self.center = Vector2D(0, 0)
         self.upLeft = Vector2D(0, 0)
         self.downRight = Vector2D(0, 0)
