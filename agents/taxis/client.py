@@ -38,9 +38,7 @@ class Client(Agent):
     def addDestination(self, d):
         self.destination = d
         self.stat = 1
-        self.observer.HCommande = time.time()
-        self.observer.distanceTheorique = d.location.distance(self.body.location)
-        print(self.id)
+        
 
 
     def filtrePerception(self):

@@ -110,7 +110,7 @@ class Taxi(Agent):
                     c.onboard = 1
                     c.observer.HPriseEnCharge = time.time()
                     c.observer.idTaxi = self.id
-                    print(c.id)
+                    c.observer.distanceTheorique=c.destination.location.distance(c.body.location)
                     c.observer.update(self.body.location,"Client")
                     c.observer.distance = 0
 

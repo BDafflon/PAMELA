@@ -8,10 +8,11 @@ class Observer:
         self.type = type
         self.dernierePosition = Vector2D(0, 0)
         self.distance=0
+        self.distanceTheorique = 0.0
 
     def update(self, location,type):
         if type=="Client":
-            print('update 1 : '+str(self.distance))
+            print('update 1 : '+str(self.distance) + "DT : "+str(self.distanceTheorique))
         self.distance = self.distance + abs(self.dernierePosition.distance(location))
         self.dernierePosition = Vector2D(location)
         if type == "Client":
@@ -35,7 +36,6 @@ class ClientObserver(Observer):
         self.HCommande = h
         self.HPriseEnCharge = 0.0
         self.tempsTrajet = 0.0
-        self.distanceTheorique = 0.0
         self.distance = 0.0
         self.distanceMarche = 0.0
         self.tempsMarche = 0.0

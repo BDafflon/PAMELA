@@ -20,7 +20,7 @@ class SimulationTaxis(threading.Thread):
         self.obsManager = ObserverManager("./res")
         self.scheduling = []
         self.factor = 10
-        self.nbTaxi = 1
+        self.nbTaxi = 25
         self.center = Vector2D(0, 0)
         self.upLeft = Vector2D(0, 0)
         self.downRight = Vector2D(0, 0)
