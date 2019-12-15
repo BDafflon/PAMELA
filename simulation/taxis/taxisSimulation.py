@@ -35,7 +35,7 @@ class SimulationTaxis(threading.Thread):
 
             for row in csv_reader:
                 if line_count == 0:
-                    print(f'Column names are {", ".join(row)}')
+                    print(f'  {", ".join(row)}')
                     line_count += 1
                 else:
                     event = [float(row[0]), float(row[1]) / self.factor, float(row[2]) / self.factor,
@@ -88,11 +88,11 @@ class SimulationTaxis(threading.Thread):
         y = (self.downRight.y + self.upLeft.y) / 2
         self.environment.addObject(Destination(x - self.center.x + self.environment.boardW / 2,
                                                y - self.center.y + self.environment.boardH / 2))
-        '''self.environment.addObject(Destination(self.downRight.x-self.center.x+self.environment.boardW/2, self.upLeft.y-self.center.y+self.environment.boardH/2))
+        self.environment.addObject(Destination(self.downRight.x-self.center.x+self.environment.boardW/2, self.upLeft.y-self.center.y+self.environment.boardH/2))
         self.environment.addObject(Destination(self.upLeft.x -self.center.x+self.environment.boardW/2, self.downRight.y-self.center.y+self.environment.boardH/2))
         self.environment.addObject(Destination(self.downRight.x-self.center.x+self.environment.boardW/2, self.downRight.y-self.center.y+self.environment.boardH/2))
         self.environment.addObject(Destination(self.upLeft.x-self.center.x+self.environment.boardW/2, self.upLeft.y-self.center.y+self.environment.boardH/2))
-'''
+
 
     def loadTaxi(self):
         x = (self.downRight.x + self.upLeft.x) / 2
