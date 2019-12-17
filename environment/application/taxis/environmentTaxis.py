@@ -31,6 +31,14 @@ class EnvironmentTaxis(Environment):
 
         self.applyInfluence(dt)
 
+    def getRandomFreeAgent(self, typeO):
+        for a in self.agents:
+            if a.type == typeO:
+                if a.stat == 1:
+                    if a.onboard == -1:
+                        return a
+        return None
+
     def checkStat(self, a):
         if a.stat == -1:
             self.agents.remove(a)
@@ -41,7 +49,7 @@ class EnvironmentTaxis(Environment):
 
         if isinstance(a, Taxi):
             if a.stat == 0:
-                d = self.getRandomAgent("Client")
+                d = self.getRandomFreeAgent("Client")
 
                 if d is not None:
                     a.addClient(d)

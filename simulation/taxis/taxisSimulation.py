@@ -117,11 +117,12 @@ class SimulationTaxis(threading.Thread):
             iterator = 0;
             startTime = int(time.time())
             while iterator < len(self.scheduling) - 1 or self.environment.getRandomAgent("Client") is not None:
+
                 elapseTime = int(time.time()) - startTime
                 if elapseTime > self.limitSimulation:
                     iterator = len(self.scheduling)
 
-                if elapseTime > self.scheduling[iterator][0]:
+                elif elapseTime > self.scheduling[iterator][0]:
                     iterator = iterator + 1
                     for i in range(0, int(self.scheduling[iterator][7])):
                         d = self.environment.getRandomObject("Destination")

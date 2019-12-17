@@ -13,6 +13,7 @@ from environment.object import Destination
 class Client(Agent):
     def __init__(self):
         Agent.__init__(self)
+        self.timeout = 600
         self.destination = Destination(0, 0)
         self.onboard = -1
         self.type = "Client"
@@ -55,7 +56,7 @@ class Client(Agent):
         influence.move = Vector2D(0, 0)
 
         if self.onboard == -1:
-            if time.time() - self.observer.HCommande > 600 :
+            if time.time() - self.observer.HCommande > self.timeout :
                 self.observer.timeout=1
                 self.stat = -1
                 return influence

@@ -39,9 +39,7 @@ class Environment(threading.Thread):
     def getRandomAgent(self, typeO):
         for a in self.agents:
             if a.type == typeO:
-                if a.stat == 1:
-                    if a.onboard == -1:
-                        return a
+                return a
         return None
 
     def update(self, dt):
