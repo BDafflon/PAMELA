@@ -116,7 +116,7 @@ class SimulationTaxis(threading.Thread):
             print("START")
             iterator = 0;
             startTime = int(time.time())
-            while iterator < len(self.scheduling) - 1:
+            while iterator < len(self.scheduling) - 1 or self.environment.getRandomAgent("Client") is not None:
                 elapseTime = int(time.time()) - startTime
                 if elapseTime > self.limitSimulation:
                     break

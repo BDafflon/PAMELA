@@ -11,6 +11,9 @@ class EnvironmentTaxis(Environment):
     def getFirstTaxi(self):
         return self.getRandomAgent("Taxi")
 
+
+
+
     def update(self, dt):
 
         self.perceptionList = {}
