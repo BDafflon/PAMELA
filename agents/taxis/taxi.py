@@ -30,6 +30,7 @@ class Taxi(Agent):
                 self.clients.append(c)
                 self.stat = 1
                 c.onboard = 0
+
                 self.occupation = self.occupation + 1
 
     def removeClient(self, c):

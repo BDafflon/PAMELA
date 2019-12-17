@@ -24,7 +24,7 @@ class ObserverManager:
 
             #Taxi: id, heure du deplacement, distance, nombre de passagers.
             writerTaxi.writerow(["id Taxi", "id deplacement", "heure de départ (s)","distance(m)", "temps de deplacement(s)","nombre de passager"])
-            writerClient.writerow(["id Client","id Taxi","heure de commande(s)","heure de prise en charge(s)","temps de trajet(s)","distance theorique(m)","distance de trajet(m)","distance de marche(m)","temps de marche(s)"])
+            writerClient.writerow(["id Client","id Taxi","heure de commande(s)","heure de prise en charge(s)","temps de trajet(s)","distance theorique(m)","distance de trajet(m)","distance de marche(m)","temps de marche(s)", "timeout"])
 
             #
             # Écriture des quelques données.
@@ -33,7 +33,7 @@ class ObserverManager:
                 if l.type=="Taxi":
                     writerTaxi.writerow([l.id,l.idDeplacement,l.HDepart,l.distance,l.temps,l.nbPassager])
                 else:
-                    writerClient.writerow([l.id,l.idTaxi,l.HCommande,l.HPriseEnCharge,l.tempsTrajet,l.distanceTheorique,l.distance,l.distanceMarche,l.tempsMarche])
+                    writerClient.writerow([l.id,l.idTaxi,l.HCommande,l.HPriseEnCharge,l.tempsTrajet,l.distanceTheorique,l.distance,l.distanceMarche,l.tempsMarche, l.timeout])
         finally:
             #
             # Fermeture du fichier source

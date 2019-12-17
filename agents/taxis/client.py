@@ -51,9 +51,15 @@ class Client(Agent):
         return l
 
     def update(self):
-
         influence = AnimateAction(None, None, None)
         influence.move = Vector2D(0, 0)
+
+        if self.onboard == -1:
+            if time.time() - self.observer.HCommande > 600 :
+                self.observer.timeout=1
+                self.stat = -1
+                return influence
+
 
         # kill me
         if self.stat == 2:

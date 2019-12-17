@@ -9,6 +9,7 @@ class Observer:
         self.dernierePosition = Vector2D(0, 0)
         self.distance=0
         self.distanceTheorique = 0.0
+        self.timeout=0
 
     def update(self, location,type):
         self.distance = self.distance + abs(self.dernierePosition.distance(location))
