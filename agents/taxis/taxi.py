@@ -22,7 +22,7 @@ class Taxi(Agent):
         self.body.vitesseMax = 15
         self.observerM = obs
         self.observer = None
-        self.policy = TaxisPolicy.MAXPASSAGER
+        self.policy = TaxisPolicy.NONE 
 
     def addClient(self, c):
         if c not in self.clients:

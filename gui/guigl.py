@@ -14,6 +14,7 @@ from pyglet.window import key, mouse
 
 # Define some colors
 from pyglet.window.mouse import LEFT
+from setuptools.msvc import winreg
 
 from helper import util
 from helper.vector2D import Vector2D
@@ -37,7 +38,7 @@ class GuiGL():
         self.environment = map
         self.title = "GUI"
         self.fullscreen = False;
-        self.scaleFactor=3
+        self.scaleFactor=1
 
     def get_window_config(self):
         platform = pyglet.window.get_platform()
@@ -67,6 +68,8 @@ class GuiGL():
             caption=self.title,
             resizable=True)
 
+        window.set_minimum_size(1280,720)
+        window.set_maximum_size(1280,720)
         glEnable(GL_BLEND)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 

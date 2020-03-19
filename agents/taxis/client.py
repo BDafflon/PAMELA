@@ -20,7 +20,7 @@ class Client(Agent):
         self.body.mass = 80
         self.body.vitesseMax = 1
         self.body.fustrum.radius = 100
-        self.policy = ClientsPolicy.COHESION
+        self.policy = ClientsPolicy.NONE
         self.observer = ClientObserver(self.id, time.time(),self.body.location)
         self.cohesionFactor = 0.03
         self.velocity = [random.uniform(-50.0, 50.0), random.uniform(-50.0, 50.0)]
