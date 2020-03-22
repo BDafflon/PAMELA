@@ -17,10 +17,8 @@ colors = [BLACK, GREEN, RED, BLUE]
 
 class GuiBoidsGL(GuiGL):
     def __init__(self, map):
-        GuiGL.__init__(self,map)
+        GuiGL.__init__(self, map)
         self.title = "GUI Boids Simulation"
-
-
 
     def render_agent(self, b):
         glBegin(GL_TRIANGLES)
@@ -29,6 +27,3 @@ class GuiBoidsGL(GuiGL):
         glVertex2f(5, 0.0)
         glVertex2f(0.0, 5 * 3.0)
         glEnd()
-
-
-
